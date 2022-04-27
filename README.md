@@ -208,7 +208,7 @@ npm test
     npm install eslint --save-dev
     npx eslint --init
 
-   ```
+    ```
     <details>
     <summary><b><u>Mostrar configuracion detallada eslint</u></b></summary>
 
