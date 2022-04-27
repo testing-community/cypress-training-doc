@@ -77,7 +77,7 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 3. Crear una carpeta en la raíz del proyecto llamada `.github` con un archivo llamado `CODEOWNERS` (sin extensión) con lo siguiente:
 
     ```js
-    * @renardete @holgiosalos @Valeryibarra
+    * @david31982 @holgiosalos @JuanDelahozMiranda @manuelq12 @valeryibarra
     ```
 
 4. Ejecutar en consola `npm init` y colocar la siguiente información:
@@ -207,8 +207,8 @@ npm test
     ```bash
     npm install eslint --save-dev
     npx eslint --init
-
     ```
+
     <details>
     <summary><b><u>Mostrar configuracion detallada eslint</u></b></summary>
 
