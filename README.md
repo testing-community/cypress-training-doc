@@ -240,6 +240,7 @@ npm test
     ? Would you like to install them now with npm?
     Yes
     ```
+
     </details>
 
     ![eslint-config](media/eslint-configuration.gif).
