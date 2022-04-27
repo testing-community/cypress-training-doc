@@ -202,13 +202,46 @@ npm test
 
 ## 6. Análisis de código estatico
 
-1. Para realizar el análisis de código estatico usaremos la herramienta ESLint para validar un conjunto de reglas sobre el código de pruebas y mantener un estilo consistente. Para esto se debe instalar ESLint como dependecia de desarrollo, luego iniciar la configuración del linter y seguimos los pasos que aparecen en consola (ver gif):
+1. Para realizar el análisis de código estatico usaremos la herramienta ESLint para validar un conjunto de reglas sobre el código de pruebas y mantener un estilo consistente. Para esto se debe instalar ESLint como dependecia de desarrollo, luego iniciar la configuración del linter y seguimos los pasos que aparecen en consola (ver respuestas sugeridas y gif):
 
     ```bash
     npm install eslint --save-dev
     npx eslint --init
+    
     ```
-
+    <details>
+    <summary><b><u>Mostrar configuracion detallada eslint</u></b></summary>
+    
+    ```bash
+    ? How would you like to use ESLint?
+    Opcion 3:   To check syntax, find problems, and enforce code style
+    
+    ? What type of modules does your project use? ...
+    Opcion 1: > JavaScript modules (import/export)
+    
+    ? Which framework does your project use? ...
+    Opcion 3: > None
+    
+    Does your project use TypeScript?
+    Yes
+    
+    ? Where does your code run?
+    Opcion 1: > Browser
+    
+    ? How would you like to define a style for your project? ...
+    Opcion 1: > Use a popular style guide
+    
+    ? Which style guide do you want to follow? ...
+    Opcion 3: > Google
+    
+    ? What format do you want your config file to be in? ...
+    Opcion 1: > JavaScript
+    
+    ? Would you like to install them now with npm?
+    Yes
+    ```
+    </details>
+    
     ![eslint-config](media/eslint-configuration.gif).
 
 2. Instalar una extension del linter para cypress que contiene reglas de estilo siguiendo las buenas practicas que sugiere cypress:
