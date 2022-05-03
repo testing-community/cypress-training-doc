@@ -144,7 +144,8 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 
 ## 4. Creando la primera prueba
 
-Una vez hemos ejecutado las pruebas de ejemplo, eliminamos la carpeta `examples` que está dentro de la carpeta `integration`.
+Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que contienen ejemplos: `cypress/integration/1-getting-started` y ` 
+cypress/integration/2-advanced-examples` que está dentro de la carpeta `integration`.
 
 1. Creamos un archivo llamado `google.spec.js` dentro de la carpeta `/cypress/integration/` con el siguiente contenido:
 
