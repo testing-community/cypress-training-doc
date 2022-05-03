@@ -157,9 +157,7 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
     });
     ```
 
-2. Ejecutar el comando `npm test` para correr la prueba. Una vez finalice y si todo está bien veremos que la prueba paso satisfactoriamente:
-
-![google spec result console](media/google_spec_pass.png)
+2. Ejecutar el comando `npm run test:open` para correr la prueba. Una vez finalice y si todo está bien veremos que la prueba paso satisfactoriamente:
 
 ![google spec result browser](media/google-spec-result.png)
 
