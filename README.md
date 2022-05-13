@@ -668,6 +668,22 @@ Usualmente en las aplicaciones nos encontramos formularios que los usuarios debe
 
     **tip:** Recuerda crear un page object e implementar la prueba con el patrón AAA
 
+    <details>
+    <summary><b><u>Nota:</u></b> Si tienes problemas con la ejecucion de las pruebas en esta pagina, te sale un mensaje de error de tipo "uncaught exception", click aqui para ver una solucion.</summary>
+
+    Agrega las siguientes lineas al final del archivo: `cypress/support/commands.js`  
+    ```js
+    // Ignoring uncaught exceptions since errors from external apps should not stop de workshop
+    Cypress.on('uncaught:exception', (err, runnable) => {
+        // returning false here prevents Cypress from
+        // failing the test
+        return false
+    })
+
+    ```
+
+    </details>
+
 3. Verifique la data que ingreso en el modal que se muestra al enviar el formulario
 
     **mini-challenge:** Agregue la interacción con el campo de State y City y verifique el modal (puntos extra!! :100:)
