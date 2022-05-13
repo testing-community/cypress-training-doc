@@ -671,8 +671,9 @@ Usualmente en las aplicaciones nos encontramos formularios que los usuarios debe
     <details>
     <summary><b><u>Nota:</u></b> Si tienes problemas con la ejecucion de las pruebas en esta pagina, te sale un mensaje de error de tipo "uncaught exception", click aqui para ver una solucion.</summary>
 
-    Agrega las siguientes lineas al final del archivo: `cypress/support/commands.js`  
-    ```js
+    Agrega las siguientes lineas al final del archivo: `cypress/support/commands.js`
+
+    ```javascript
     // Ignoring uncaught exceptions since errors from external apps should not stop de workshop
     Cypress.on('uncaught:exception', (err, runnable) => {
         // returning false here prevents Cypress from
