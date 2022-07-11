@@ -18,18 +18,18 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 
 ## Tabla de contenidos
 
-1. [Creación y configuración del repositorio](#1-creaci-n-y-configuraci-n-del-repositorio)
+1. [Creación y configuración del repositorio](#1-creación-y-configuración-del-repositorio)
 1. [Configuracion inicial del proyecto](#2-configuracion-inicial-del-proyecto)
-1. [Instalación de Cypress](#3-instalaci-n-de-cypress)
+1. [Instalación de Cypress](#3-instalación-de-cypress)
 1. [Creando la primera prueba](#4-creando-la-primera-prueba)
 1. [Configurando las pruebas con TypeScript](#5-configurando-las-pruebas-con-typescript)
-1. [Análisis de código estatico](#6-an-lisis-de-c-digo-estatico)
+1. [Análisis de código estatico](#6-análisis-de-código-estatico)
 1. [Configurar Integración Continua (CI)](#7-configurar-integracion-continua-ci)
 1. [Selectores CSS](#8-selectores-css)
-1. [Page Object Model (POM)](#9-page-object-model--pom-)
+1. [Page Object Model (POM)](#9-page-object-model-pom)
 1. [Mejorando los selectores](#10-mejorando-los-selectores)
 1. [AAA pattern](#11-aaa-pattern)
-1. [Listas de elementos, filtros y elementos dentro de elementos](#12-listas-de-elementos--filtros-y-elementos-dentro-de-elementos)
+1. [Listas de elementos, filtros y elementos dentro de elementos](#12-listas-de-elementos-filtros-y-elementos-dentro-de-elementos)
 1. [Mejorando los reportes - Mochawesome](#13-mejorando-los-reportes---mochawesome)
 1. [Filling form](#14-filling-form)
 1. [Subiendo un archivo](#15-subiendo-un-archivo)
@@ -111,6 +111,8 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
     ```
 
 ## 3. Instalación de Cypress
+
+> **Nota Importante:** Este Workshop es compatible con la version 9.x de Cypress, algunos cambios en la configuracion son requeridos para hacerla compatible con la version 10. Sin embargo puedes consultar [esta guía de migración](https://docs.cypress.io/guides/references/migration-guide#Migrating-to-Cypress-version-10-0) para saber que cambios debes hacer cuando el workshop te pida cambiar los archivos de configuracion.
 
 1. Ejecutar el siguiente comando:
 
@@ -456,7 +458,7 @@ A continuación realizar la transformación a POM, por medio de los siguientes p
     export { MenuContentPage }
     ```
 
-2. Posteriormente crear el archivo `cypress/page/index.js` para usar como archivo de salida de todos los page object:
+2. Posteriormente crear el archivo `cypress/page/index.tx` para usar como archivo de salida de todos los page object:
 
     ```javascript
     export { MenuContentPage } from "./menu-content.page"
