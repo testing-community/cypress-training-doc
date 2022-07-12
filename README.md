@@ -66,6 +66,7 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
    * [Valeryibarra](https://github.com/Valeryibarra)
    * [aperdomob](https://github.com/aperdomob)
    * [manuelq12](https://github.com/manuelq12)
+   * [JuanDelahozMiranda](https://github.com/JuanDelahozMiranda)
 
 ## 2. Configuracion inicial del proyecto
 
@@ -80,7 +81,7 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 3. Crear una carpeta en la raíz del proyecto llamada `.github` con un archivo llamado `CODEOWNERS` (sin extensión) con lo siguiente:
 
     ```
-    * @holgiosalos @valeryibarra @aperdomob @manuelq12
+    * @holgiosalos @valeryibarra @aperdomob @manuelq12 @JuanDelahozMiranda
     ```
 
 4. Ejecutar en consola `npm init` y colocar la siguiente información:
@@ -276,6 +277,11 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
     <summary><b><u>Mostrar configuracion detallada eslint</u></b></summary>
 
     ```bash
+    Need to install the following packages:
+    @eslint/create-config
+    Ok to proceed? (y)
+    Presionar `y`y enter.
+
     ? How would you like to use ESLint?
     Opcion 3:   To check syntax, find problems, and enforce code style
 
@@ -359,13 +365,13 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
 
 En esta sección se configura la integración continua por medio de GitHub Actions, lo cual nos permitirá correr nuestras pruebas en un servidor remoto y validar continuamente que los cambios que vamos a ingresar a nuestra aplicación no han afectado su funcionamiento correcto.
 
-1. Inicialmente crear el siguiente script en el package.json para ejecutar todas las pruebas de cypress/integration/ sin tener que levantar la interfaz grafica del explorador. A esto le llamamos "headless mode":
+1. Inicialmente modificar el siguiente script en el package.json para ejecutar todas las pruebas de `cypress/e2e/` sin tener que levantar la interfaz grafica del explorador. A esto le llamamos "headless mode":
 
-    ```javascript
+    ```json
     "scripts": {
-        ...
+        ... scripts existentes, no borrar
         "test": "cypress run"
-        ...
+        ... scripts existentes, no borrar
       },
     ```
 
@@ -407,7 +413,7 @@ En esta sección se configura la integración continua por medio de GitHub Actio
             run: npm run lint
 
           - name: UI E2E Tests
-            uses: cypress-io/github-action@v2
+            uses: cypress-io/github-action@v4
             with:
               browser: chrome
               headless: true
@@ -420,18 +426,21 @@ En esta sección se configura la integración continua por medio de GitHub Actio
 
 3. Crea el archivo `.nvmrc` y especifica la version de Node.js que seas usar para la ejecución.
 
-4. Debido a que cypress por default graba videos de la ejecución de las pruebas es util desactivar esta funcionalidad para disminuir el tiempo de ejecución y el uso de recursos en el servidor del CI. Adicionalmente, desactivaremos temporalmente las capturas de pantalla debido a un [error](https://github.com/cypress-io/cypress/issues/5016) que aun no ha sido solucionado en las versiones recientes de cypress. Para esto se debe ingresar la siguiente configuración en el archivo `cypress.json`
+4. Debido a que cypress por default graba videos de la ejecución de las pruebas es util desactivar esta funcionalidad para disminuir el tiempo de ejecución y el uso de recursos en el servidor del CI. Adicionalmente, desactivaremos temporalmente las capturas de pantalla debido a un [error](https://github.com/cypress-io/cypress/issues/5016) que aun no ha sido solucionado en las versiones recientes de cypress. Para esto se debe ingresar la siguiente configuración en el archivo `cypress.config.ts`
 
-    ```json
-    {
-      ...
-      "video": false,
-      "screenshotOnRunFailure": false
-      ...
-    }
+    ```js
+    // Codigo existente no modificar
+    e2e: {
+      // solo necesitas agregar estas dos propiedades, no incluir este comentario
+      video: false,
+      screenshotOnRunFailure: false,
+      setupNodeEvents(on, config) {
+        // Codigo existente no modificar
+      }
+      // Codigo existente no modificar
     ```
 
-5. Finalmente subir los cambios al repositorio y crear un Pull Request. Se ejecutaran las pruebas en el servidor que provee Travis y se mostrara los resultados de la ejecución en el PR.
+5. Finalmente subir los cambios al repositorio y crear un Pull Request. Se ejecutaran las pruebas en el servidor que provee GitHub Actions y se mostrara los resultados de la ejecución en el PR.
 
 ## 8 Selectores CSS
 
