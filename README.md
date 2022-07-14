@@ -450,38 +450,38 @@ En esta sección se realiza un flujo para comprar una camiseta en la tienda de r
 
 Vamos a realizar los siguientes pasos, para automatizar el flujo de compra:
 
-1. Primero crear el archivo `buy-shirt.spec.ts` e incluir el siguiente codigo:
+1. Primero crear el archivo `buy-shirt.cy.ts` e incluir el siguiente codigo:
 
-    ```typescript
+    ```js
     describe("Buy a t-shirt", () => {
 
       it("then the t-shirt should be bought", () => {
-        cy.visit("http://automationpractice.com/")
-        cy.get("#block_top_menu > ul > li:nth-child(3) > a").click()
-        cy.get("#center_column a.button.ajax_add_to_cart_button.btn.btn-default").click()
-        cy.get("[style*="display: block;"] .button-container > a").click()
-        cy.get(".cart_navigation span").click()
+        cy.visit("http://automationpractice.com/");
+        cy.get("#block_top_menu > ul > li:nth-child(3) > a").click();
+        cy.get("#center_column a.button.ajax_add_to_cart_button.btn.btn-default").click();
+        cy.get("[style*='display: block;'] .button-container > a").click();
+        cy.get(".cart_navigation span").click();
 
-        cy.get("#email").type("aperdomobo@gmail.com")
-        cy.get("#passwd").type("WorkshopProtractor")
+        cy.get("#email").type("aperdomobo@gmail.com");
+        cy.get("#passwd").type("WorkshopProtractor");
 
         // Debes completar la prueba ...
 
         cy.get("#center_column > div > p > strong")
-          .should("have.text", "Your order on My Store is complete.")
+          .should("have.text", "Your order on My Store is complete.");
       });
     });
     ```
 
     El flujo que debes continuar es:
 
-    * Seccion Address: Continuar el checkout
-      * Seccion Shipping:
-        * Aceptar terminos y condiciones
-        * luego continuar el checkout
-      * Seccion Payment:
-        * click en pay by bank wire
-        * confirmar orden
+    * Seccion Address: Continuar el checkout (8)
+    * Seccion Shipping:
+        * Aceptar terminos y condiciones (9)
+        * luego continuar el checkout (10)
+    * Seccion Payment:
+        * click en pay by bank wire (11)
+        * confirmar orden (12)
 
     Usa como apoyo las siguientes imagenes para conocer mas del flujo esperado, extrae los CSS selector de la UI manualmente, termina la prueba y correla local.
 
@@ -489,14 +489,15 @@ Vamos a realizar los siguientes pasos, para automatizar el flujo de compra:
 
     ![buy-shirt-flow](media/buy-tshirt-flow.gif)
 
-2. En algunos la red u otros factores externos a la prueba pueden afectar los tiempos de espera, en el archivo de configuración de cypress `cypress.json` agrega los siguientes atributos y modificalos hasta que las pruebas pasen:
+2. En algunos la red u otros factores externos a la prueba pueden afectar los tiempos de espera, en el archivo de configuración de cypress `cypress.config.ts` modifica la funcion `setupNodeEvents` de la siguiente forma:
 
-    ```json
-    {
-      ...
-        "defaultCommandTimeout": 20000,
-        "responseTimeout": 20000
-      ...
+    ```js
+    setupNodeEvents(on, config) {
+      config.defaultCommandTimeout = 20000
+      config.responseTimeout = 20000
+
+      // IMPORTANT return the updated config object
+      return config
     }
     ```
 
