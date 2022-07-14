@@ -73,6 +73,7 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 1. Instalar la versión `v16.X.0` de Node.js.
 
     > **Notas:**
+
     > * Recomendamos usar [nvm](https://github.com/nvm-sh/nvm) como manejador de versiones.
     > * Necesariamente no tienes que instalar la version 16, pero si recomendamos instalar una version LTS, hemos probado este workshop con las versiones `v14.X.0` ó `v16.X.0`.
 
@@ -80,7 +81,7 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 
 3. Crear una carpeta en la raíz del proyecto llamada `.github` con un archivo llamado `CODEOWNERS` (sin extensión) con lo siguiente:
 
-    ```
+    ```bash
     * @holgiosalos @valeryibarra @aperdomob @manuelq12 @JuanDelahozMiranda
     ```
 
@@ -258,9 +259,9 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
 
 5. Cambiar la extensión de nuestra prueba `google.cy.js` por `google.cy.ts` y ejecutar el comando de pruebas para comprobar que la transpilación se ejecuta correctamente al correr las pruebas
 
-   ```bash
-   npm run test:open
-   ```
+    ```bash
+    npm run test:open
+    ```
 
 6. Cree una nueva rama y envie el Pull Request con estos cambios (incluya una captura de pantalla donde se evidencie que las pruebas estan pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
@@ -475,13 +476,14 @@ Vamos a realizar los siguientes pasos, para automatizar el flujo de compra:
 
     El flujo que debes continuar es:
 
-    * Seccion Address: Continuar el checkout (8)
+    * Seccion de Sign In: Click en boton de Sign In (8)
+    * Seccion Address: Continuar el checkout (9)
     * Seccion Shipping:
-        * Aceptar terminos y condiciones (9)
-        * luego continuar el checkout (10)
+        * Aceptar terminos y condiciones (10)
+        * luego continuar el checkout (11)
     * Seccion Payment:
-        * click en pay by bank wire (11)
-        * confirmar orden (12)
+        * click en pay by bank wire (12)
+        * confirmar orden (13)
 
     Usa como apoyo las siguientes imagenes para conocer mas del flujo esperado, extrae los CSS selector de la UI manualmente, termina la prueba y correla local.
 
