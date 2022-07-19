@@ -404,7 +404,7 @@ En esta sección se configura la integración continua por medio de GitHub Actio
            uses: cypress-io/github-action@v4
            with:
              browser: chrome
-             headless: true
+             headed: true
    ```
 
    _Nota_: El action de cypress ejecuta por default el comando `npm test`
@@ -672,20 +672,20 @@ Algunas veces es bueno mejorar el reporte visual de la ejecución de nuestras pr
    npm install mochawesome-report-generator --save-dev
    ```
 
-2. Agregamos la siguiente configuración al archivo `cypress.json`:
+2. Agregamos la siguiente configuración a la seccion `e2e` del archivo `cypress.config.ts`:
 
-   ```json
-   "reporter": "cypress-multi-reporters",
-       "reporterOptions": {
-           "reporterEnabled": "mochawesome",
-           "mochawesomeReporterOptions": {
-               "reportDir": "cypress/reports/mocha",
-               "quite": true,
-               "overwrite": false,
-               "html": false,
-               "json": true
-           }
-       }
+   ```javascript
+   reporter: "cypress-multi-reporters",
+   reporterOptions: {
+     reporterEnabled: "mochawesome",
+     mochawesomeReporterOptions: {
+       reportDir: "cypress/reports/mocha",
+       quite: true,
+       overwrite: false,
+       html: false,
+       json: true,
+     },
+   },
    ```
 
 3. Agrega script en el `package.json` para limpiar la carpeta `cypress/reports`
@@ -695,10 +695,8 @@ Algunas veces es bueno mejorar el reporte visual de la ejecución de nuestras pr
 4. Agrega estos sripts para procesar el reporte generado al ejecutar las pruebas:
 
    ```json
-   {
-     "combine-reports": "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/report.json",
-     "generate-report": "marge cypress/reports/report.json -f report -o cypress/reports"
-   }
+   "combine:reports": "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/report.json",
+   "generate:reports": "marge cypress/reports/report.json -f report -o cypress/reports",
    ```
 
 5. Invetiga los hooks **pre** y **post** de npm para ejecutar scripts antes y despues de las pruebas:
