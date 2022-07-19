@@ -130,24 +130,19 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
    ```
 
    - Si te aparece un mensaje de Windows Defender similar al de la imagen, selecciona todas las opciones y presiona el boton Allow Access.
-
-   ![allow access](media/allow-access.png)
+     ![allow access](media/allow-access.png)
 
    - Después, se abrirá una ventana dandote la bienvenida Cypress. Te dara a escoger entre dos opciones (E2E Testing y Component Testing). Selecciona E2E Testing.
-
-   ![cypress install step 1](media/cypress-install-step-1.png)
+     ![cypress install step 1](media/cypress-install-step-1.png)
 
    - Luego, Cypress mostrará el contenido de 4 archivos que agregará a nuestro proyecto: `cypress.config.js`, `cypress\support\e2e.js`, `cypress\support\commands.js`, `cypress\fixtures\example.json`. Presiona el boton de continuar.
-
-   ![cypress install step 2](media/cypress-install-step-2.png)
+     ![cypress install step 2](media/cypress-install-step-2.png)
 
    - A continuación, Cypress te pedira que selecciones uno de los navegadores soportados. Seleccionaras `Chrome`, y luego presionaras el botón "Start E2E Testing in Chrome".
-
-   ![cypress install step 3](media/cypress-install-step-3.png)
+     ![cypress install step 3](media/cypress-install-step-3.png)
 
    - Después, Cypress abrirá una ventana de Chrome y te pedira que elijas entre dos opciones. Selecciona "Scaffold example specs". Esto generará varios archivos de prueba, con ejemplos acerca de como utilizar cypress.
-
-   ![cypress install step 4](media/cypress-install-step-4.png)
+     ![cypress install step 4](media/cypress-install-step-4.png)
 
    - Por último, Cypress te mostrara todos los archivos que ha generado. Presiona el boton "Okay, I got it!"
 
@@ -636,16 +631,15 @@ Vamos a agregar una nueva prueba y la estructuramos usando el patrón AAA:
 
 3. Crea la prueba teniendo en cuenta el patrón AAA:
 
-   1. Arrange: Crea un arreglo con los nombre esperados de cada vestido y visita la página del menu principal.
-   2. Action: Navega al menu de vestidos donde se carga la lista de vestidos diponibles.
-   3. Assert: Verifica que se visualicen 5 vestidos y que tengan los nombres esperados (el orden es importante).
-
-   > **tip:** Recuerda aplicar los Page Object al construir la prueba. Probablemente requieras agregar un metodo al `MenuContentPage`.
-   > **Nota:** Investiga como funciona los métodos **validate** en el archivo `dresses-list.page.ts`.
+   - **Arrange:** Crea un arreglo con los nombre esperados de cada vestido y visita la página del menu principal.
+   - **Act:** Navega al menu de vestidos donde se carga la lista de vestidos diponibles.
+   - **Assert:** Verifica que se visualicen 5 vestidos y que tengan los nombres esperados (el orden es importante).
 
 4. Actualiza la prueba de comprar tshirt en el archivo `buy-tshirt.cy.ts` para que siga el patrón AAA.
 
 5. Verifica que las pruebas corran bien, crea un PR y solicita la revisión.
+
+> **tip:** Recuerda aplicar los Page Object al construir la prueba. Probablemente requieras agregar un metodo al `MenuContentPage`. <br/> **Nota:** Investiga como funciona los métodos **validate** en el archivo `dresses-list.page.ts`.
 
 ## 12. Listas de elementos, filtros y elementos dentro de elementos
 
