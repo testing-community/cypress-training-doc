@@ -764,7 +764,7 @@ Usualmente nos podemos encontrar con la necesidad de subir archivos por medio de
 
 2. Crea el archivo `upload.page.ts` que contenga tres metodos:
 
-   - visitar la página de pruebas de subida de archivos: [upload-demo-site](http://demo.automationtesting.in/FileUpload.html)
+   - Visitar la página de pruebas de subida de archivos: [upload-demo-site](https://the-internet.herokuapp.com/upload)
    - Subir un archivo. Recibe como parametro el nombre del archivo almacenado en la carpeta: `cypress/fixtures`
    - Obtener el elemento del titulo que contiene el nombre despues de subir
 
@@ -780,9 +780,9 @@ Para esta sección descargaremos un archivo y verificaremos el contenido, realiz
 
 1. Construye la siguiente prueba en el archivo `upload-download.cy.ts`:
 
-   - Visita la página: [download-demo-site](http://demo.automationtesting.in/FileDownload.html)
-   - Genera un archivo con data ingresada en la prueba automática y descargalo.
-   - Verifica que el archivo descargado tenga el contenido que ingresaste en la prueba.
+   - Visita la página: [download-demo-site](https://the-internet.herokuapp.com/download)
+   - Descarga el archivo llamado 'test.txt'.
+   - Verifica que el archivo descargado tenga el siguiente contenido "Isso é um teste".
 
 2. Crea el archivo `download.page.ts` con los método necesarios para construir la prueba automatica.
 
