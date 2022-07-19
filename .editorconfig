@@ -19,3 +19,8 @@ trim_trailing_whitespace = true
 
 # Give operators breathing room, but not brackets
 spaces_around_operators = true
+
+[*.md]
+indent_style = space
+indent_size = 2
+tab_width = 2
