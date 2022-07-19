@@ -530,7 +530,7 @@ A continuación realizar la transformación a POM, por medio de los siguientes p
    export { MenuContentPage } from "./menu-content.page";
    ```
 
-3. Luego modificar el archivo `buy-tshirt.spec.ts` para utilizar el POM que acabamos de crear en la prueba:
+3. Luego modificar el archivo `buy-tshirt.cy.ts` para utilizar el POM que acabamos de crear en la prueba:
 
    ```javascript
    import { MenuContentPage } from "../page/index";
@@ -719,8 +719,9 @@ Usualmente en las aplicaciones nos encontramos formularios que los usuarios debe
    const personalInformation = {
      name: "Holmes",
      lastName: "Salazar",
-     email: "hibarras@email.com",
+     email: "test@email.com",
      gender: "Male",
+     dateOfBirth: "27 Jul 2016",
      mobileNumber: "3656589156",
      hobbies: ["Music", "Reading"],
      currentAddress: "Av siempreViva # 123",
@@ -733,7 +734,7 @@ Usualmente en las aplicaciones nos encontramos formularios que los usuarios debe
    <details>
    <summary><b><u>Nota:</u></b> Si tienes problemas con la ejecucion de las pruebas en esta pagina, te sale un mensaje de error de tipo "uncaught exception", click aqui para ver una solucion.</summary>
 
-   Agrega las siguientes lineas al final del archivo: `cypress/support/commands.js`
+   Agrega las siguientes lineas al final del archivo: `cypress/support/commands.ts`
 
    ```javascript
    // Ignoring uncaught exceptions since errors from external apps should not stop de workshop
@@ -746,9 +747,12 @@ Usualmente en las aplicaciones nos encontramos formularios que los usuarios debe
 
    </details>
 
-3. Verifique la data que ingreso en el modal que se muestra al enviar el formulario
+3. Verifique el titulo del pop-up que aparece una vez se termina de diligenciar el formulario.
 
-   **mini-challenge:** Agregue la interacción con el campo de State y City y verifique el modal (puntos extra!! :100:)
+   **Nota:** La verificacion anterior es sencilla de realizar, a continuacion, opcionalmente, proponemos dos verificaciones adicionales:
+
+   - **mini-challenge:** Agregue la interacción con el campo de State y City.
+   - **Challenge:** En el modal, verifique que se muestra correctamente, la informacion que ingresó al enviar el formulario.
 
 4. Verifique que las pruebas pasen, cree un PR y solicite la revisión.
 
@@ -764,7 +768,7 @@ Usualmente nos podemos encontrar con la necesidad de subir archivos por medio de
    - Subir un archivo. Recibe como parametro el nombre del archivo almacenado en la carpeta: `cypress/fixtures`
    - Obtener el elemento del titulo que contiene el nombre despues de subir
 
-3. Crea el archivo de pruebas `upload-download.spec.ts` y agrega una prueba para subir un archivo usando el page object creado anteriormente. Recuerda estructurar tu prueba con el pátron AAA.
+3. Crea el archivo de pruebas `upload-download.cy.ts` y agrega una prueba para subir un archivo usando el page object creado anteriormente. Recuerda estructurar tu prueba con el pátron AAA.
 
    **tip:** El patrón AAA es solo para ayudarnos a tener mas orden al diseñar y contruir nuestras pruebas.
 
@@ -774,7 +778,7 @@ Usualmente nos podemos encontrar con la necesidad de subir archivos por medio de
 
 Para esta sección descargaremos un archivo y verificaremos el contenido, realizaremos la siguiente prueba:
 
-1. Construye la siguiente prueba en el archivo `upload-download.spec.ts`:
+1. Construye la siguiente prueba en el archivo `upload-download.cy.ts`:
 
    - Visita la página: [download-demo-site](http://demo.automationtesting.in/FileDownload.html)
    - Genera un archivo con data ingresada en la prueba automática y descargalo.
@@ -808,11 +812,11 @@ Los iframes son elementos HTML que nos podemos encontrar comunmente en aplicacio
    }
    ```
 
-3. Crea un archivo de pruebas llamado `iframe.spec.ts` y construye las siguientes pruebas:
+3. Crea un archivo de pruebas llamado `iframe.cy.ts` y construye las siguientes pruebas:
 
    - Cuando un usuario navega a la pagina: [pagina iframe](https://www.w3schools.com/html/html_iframe.asp) se muestra un Iframe que tiene como titulo `HTML Tutorial`
 
-   - **Optional:** Cuando un usuario navega a la pagina: [pagina iframe](https://www.w3schools.com/html/html_iframe.asp) se muestra un Iframe y cuando el usuario navega a la pagina de CSS al darle click en la barra de navegación, se carga la pagina de CSS dentro del IFrame con el titulo `CSS Tutorial`
+   - **Optional:** Cuando un usuario navega a la pagina: [pagina iframe](https://www.w3schools.com/html/html_iframe.asp) se muestra un i-frame y cuando el usuario navega a la pagina de CSS al darle click en la barra de navegación, se carga la pagina de CSS dentro del IFrame con el titulo `CSS Tutorial`
 
    **Challenge:** algunas pruebas pueden ser inestables por diferentes factores como latencias. Implementa una estrategia de retrys si encuentras alguna inestabilidad!
 
