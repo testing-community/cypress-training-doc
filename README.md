@@ -780,9 +780,9 @@ Para esta sección descargaremos un archivo y verificaremos el contenido, realiz
 
 1. Construye la siguiente prueba en el archivo `upload-download.cy.ts`:
 
-   - Visita la página: [download-demo-site](https://the-internet.herokuapp.com/download)
-   - Descarga el archivo llamado 'test.txt'.
-   - Verifica que el archivo descargado tenga el siguiente contenido "Isso é um teste".
+   - Visita la página: [download-demo-site](https://demoqa.com/upload-download)
+   - Descarga la imagen a traves del boton "Download".
+   - Verifica que el archivo exista en la carpeta de descargas de Cypress.
 
 2. Crea el archivo `download.page.ts` con los método necesarios para construir la prueba automatica.
 
