@@ -822,6 +822,17 @@ Los iframes son elementos HTML que nos podemos encontrar comunmente en aplicacio
 
 4. Verifica que las pruebas pasen, crea un PR y solicita la revisión.
 
+   <details>
+   <summary><b><u>Nota:</u></b> Si tienes problemas con la ejecucion de las pruebas en esta pagina, te sale un mensaje de error de tipo "SecurityError: Blocked a frame with origin...", click aqui para ver una solucion.</summary>
+
+   Agrega las siguientes lineas en el método "setupNodeEvents" al final del archivo: `cypress.config.ts`
+
+   ```javascript
+   config.chromeWebSecurity = false;
+   ```
+
+   </details>
+
 ## Conclusión
 
 Muchas gracias por haber participado del Workshop de Cypress!!!!! Esperamos que tengas nuevos conocimientos que impulsen tu carrera profesional.
