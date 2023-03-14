@@ -62,6 +62,7 @@ Adicionalmente agregue a su archivo **.gitignore** las siguientes líneas para n
    git remote add origin https://github.com/<usuario>/cypress-training.git
    git push -u origin main
    ```
+
   > <b><u>Nota:</b></u> debé reemplazar `<usuario>` por su usuario de GitHub.
 
 1.5. Protege la rama `main` para que los pull request requieran revisión de otros desarrolladores, esto te permite comprobar el estado de nuestros test ("OK" :heavy_check_mark: o "fallaron" :x:) antes de hacer un merge en la rama.
