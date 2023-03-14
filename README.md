@@ -1,8 +1,8 @@
 # Workshop Cypress
 
-Bienvenido al Workshop de Cypress!!! Durante el taller exploraremos los conocimientos necesarios para construir pruebas automaticas de la interfaz gráfica (GUI) usando Cypress. Durante el taller exploraremos la configuración de un proyecto desde cero, prepararlo para un proceso de integración continua por medio de Travis CI, interactuar con diferentes componentes web y mucho mas.
+Bienvenido al Workshop de Cypress!!! Durante el taller exploraremos los conocimientos necesarios para construir pruebas automatizadas desde la interfaz gráfica (GUI) usando Cypress. Durante el taller exploraremos la configuración de un proyecto desde cero, prepararlo para un proceso de integración continua por medio de GitHub Actions, interactuar con diferentes componentes y mucho más.
 
-Para el desarrollo del taller usaremos [GitHub](https://github.com/) y [GitHub Flow](https://guides.github.com/introduction/flow/) para realizar la entrega de cada ejercicio practico.
+Para el desarrollo del taller usaremos [GitHub](https://github.com/), [GitHub Flow](https://guides.github.com/introduction/flow/), [GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions), [NodeJS](https://nodejs.org/en/), [Cypress](https://www.cypress.io/) y TypeScript para realizar la entrega del ejercicio práctico.
 
 Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos enlaces :sunglasses:):
 
@@ -12,19 +12,19 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 **Tips de GitHub Flow:**
 
 1. Para cada ejercicio crear una rama (Investiga: _gitflow naming conventions_ )
-2. Crea un Pull Request por cada punto (**Recuerda las interacciones como comentarios en ingles**)
-3. Despues de que se recibe aprobación de cada punto se debe hacer merge de la rama, utilizando squash.
-4. Antes de empezar un nuevo punto se debe hacer pull de main para asegurarnos que tenemos los ultimos cambios del anterior punto.
+2. Crea un Pull Request por cada punto (**Recuerda las interacciones como comentarios en inglés**)
+3. Después de que se recibe aprobación de cada punto se debe hacer merge de la rama, utilizando squash.
+4. Antes de empezar un nuevo punto se debe hacer pull de main para asegurarnos que tenemos los últimos cambios del anterior punto.
 
 ## Tabla de contenidos
 
 1. [Creación y configuración del repositorio](#1-creación-y-configuración-del-repositorio)
-1. [Configuracion inicial del proyecto](#2-configuracion-inicial-del-proyecto)
+1. [Configuración inicial del proyecto](#2-configuración-inicial-del-proyecto)
 1. [Instalación de Cypress](#3-instalación-de-cypress)
 1. [Creando la primera prueba](#4-creando-la-primera-prueba)
 1. [Configurando las pruebas con TypeScript](#5-configurando-las-pruebas-con-typescript)
-1. [Análisis de código estatico](#6-análisis-de-código-estatico)
-1. [Configurar Integración Continua (CI)](#7-configurar-integracion-continua-ci)
+1. [Análisis de código estático](#6-análisis-de-código-estático)
+1. [Configurar Integración Continua (CI)](#7-configurar-integración-continua-ci)
 1. [Selectores CSS](#8-selectores-css)
 1. [Page Object Model (POM)](#9-page-object-model-pom)
 1. [Mejorando los selectores](#10-mejorando-los-selectores)
@@ -38,13 +38,20 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 
 ## 1. Creación y configuración del repositorio
 
-1. Crear un repositorio en GitHub con el nombre de **cypress-training** (previo requisito disponer de una cuenta en GitHub, no seleccione ninguna opcion de inicializacion de repositorio).
+1.1. Crear un repositorio en GitHub con el nombre de **cypress-training** (previo requisito disponer de una cuenta en GitHub, no seleccione ninguna opción de inicialización de repositorio).
 
-2. Crear localmente una carpeta con el nombre de **cypress-training** y luego sitúese dentro de la carpeta.
+1.2. Crear localmente una carpeta con el nombre de **cypress-training** y luego sitúese dentro de la carpeta.
 
-3. Crear el archivo **.gitignore** en la raíz del proyecto, luego ingrese a la página <https://www.toptal.com/developers/gitignore> y en el campo de texto digite su sistema operativo (ej: windows, osx, macos) y selecciónelo de la lista de autocompletar. Repita este paso para su entorno de desarrollo (ej:vscode, sublime, intellij, jetbrains), también agregue la palabra `node` y por ultimo `CypressIO`. Presione el botón "Create" para crear el archivo que contendrá una lista de carpetas y archivos de exclusión y copie su contenido dentro del archivo **.gitignore**.
+1.3. Crear el archivo **.gitignore** en la raíz del proyecto, luego ingrese a la página <https://www.toptal.com/developers/gitignore> y en el campo de texto digite su sistema operativo (ej: windows, osx, macOS) y selecciónelo de la lista de autocompletar. Repita este paso para su entorno de desarrollo (ej:VsCode, Sublime, Intellij, JetBrains), también agregue la palabra `node` y por último `CypressIO`. Presione el botón "Create" para crear el archivo que contendrá una lista de carpetas y archivos de exclusión y copie su contenido dentro del archivo **.gitignore**.
 
-4. A continuación realice el primer commit y suba los cambios a nuestro repositorio remoto de GitHub, digitando los siguientes comandos en tu consola favorita, cada linea es un comando distinto:
+Adicionalmente agregue a su archivo **.gitignore** las siguientes líneas para no subir las pruebas que hacen parte del demo:
+
+   ```bash
+   cypress/e2e/1-getting-started/*
+   cypress/e2e/2-advanced-examples/*
+   ```
+
+1.4. A continuación realice el primer commit y suba los cambios en su repositorio remoto de GitHub, digitando los siguientes comandos en tu consola (cada línea es un comando distinto):
 
    ```bash
    echo "# cypress-training" >> README.md
@@ -56,49 +63,53 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
    git push -u origin main
    ```
 
-5. Proteger la rama `main` para que los pull request requieran revisión de otros desarrolladores y se compruebe el estado de nuestros test ("ok" :heavy_check_mark: o "fallaron" :x:) antes de hacer un merge a la rama.
+  > <b><u>Nota:</b></u> debé reemplazar `<usuario>` por su usuario de GitHub.
 
-   > Ir a Settings > Branches adicionamos una regla dando click en **add rule**. Escribimos `main` en el campo de **branch name pattern**. Una vez hecho eso, damos click en las siguientes opciones:
-   > ![branch rules](media/branch_protection_configuration.png)
+1.5. Protege la rama `main` para que los pull request requieran revisión de otros desarrolladores, esto te permite comprobar el estado de nuestros test ("OK" :heavy_check_mark: o "fallaron" :x:) antes de hacer un merge en la rama.
 
-6. Añadir como colaboradores a:
-   - [holgiosalos](https://github.com/holgiosalos)
-   - [Valeryibarra](https://github.com/Valeryibarra)
-   - [aperdomob](https://github.com/aperdomob)
-   - [manuelq12](https://github.com/manuelq12)
-   - [JuanDelahozMiranda](https://github.com/JuanDelahozMiranda)
+> Ir a Settings > Branches adicionamos una regla dando click en **add rule**. Escribimos `main` en el campo de **branch name pattern**. Una vez hecho eso, damos click en las siguientes opciones:
+> ![branch rules](media/branch_protection_configuration.png)
 
-## 2. Configuracion inicial del proyecto
+1.6. Si tiene un mentor asignado, agrega a tu mentor como colaborador, adicionalmente, también puedes agregar a las siguientes personas (quienes te podrán ayudar, en la medida que su tiempo se los permita):
 
-1. Instalar la versión `v16.X.0` de Node.js.
+- [holgiosalos](https://github.com/holgiosalos)
+- [aperdomob](https://github.com/aperdomob)
+- [manuelq12](https://github.com/manuelq12)
+- [JuanDelahozMiranda](https://github.com/JuanDelahozMiranda)
 
-   **Notas:**
+## 2. Configuración inicial del proyecto
 
-   - Recomendamos usar [nvm](https://github.com/nvm-sh/nvm) como manejador de versiones.
-   - Necesariamente no tienes que instalar la version 16, pero si recomendamos instalar una version LTS, hemos probado este workshop con las versiones `v14.X.0` ó `v16.X.0`.
+2.1. Instalar la última versión LTS disponible de Node.js.
 
-2. Crear una nueva rama local ejecutando por consola `git checkout -b setup`.
+**Notas:**
 
-3. Crear una carpeta en la raíz del proyecto llamada `.github` con un archivo llamado `CODEOWNERS` (sin extensión) con lo siguiente:
+- Hemos probado este workshop con las versiones `v14.X.0`, `v16.X.0` y `v18.X.0`, No necesariamente tiene que instalar una de las versiones anteriores mencionadas, pero si recomendamos instalar una versión LTS.
+
+2.2. Crear una nueva rama local ejecutando por consola `git checkout -b setup`.
+
+2.3. Crear una carpeta en la raíz del proyecto llamada `.github` con un archivo llamado `CODEOWNERS` (sin extensión) con lo siguiente:
 
    ```bash
-   * @holgiosalos @valeryibarra @aperdomob @manuelq12 @JuanDelahozMiranda
+   * @holgiosalos @aperdomob @manuelq12 @JuanDelahozMiranda
    ```
 
-4. Ejecutar en consola `npm init` y colocar la siguiente información:
-   | Parámetro | Valor |
-   | ------------------ | --------------------------------------------- |
-   | **Name** | cypress-training |
-   | **Version** | _[Por Defecto]_ |
-   | **Description** | This is a Workshop about Cypress |
-   | **Entry Point** | _[Por Defecto]_ |
-   | **Test Command** | `cypress open` |
-   | **Git Repository** | _[Por Defecto]_ |
-   | **Keywords** | ui-testing, dojo, practice, cypress |
-   | **Author** | _[Su nombre]_ <_[Su correo]_> (_[su GitHub]_) |
-   | **License** | MIT |
+> <b>Nota:</b> recuerda que si tiene un mentor asignado debe agregarlo como colaborador.
 
-5. Realizar un commit donde incluya los archivos creados con el mensaje “setup project configuration” y subir los cambios al repositorio:
+2.4. Ejecutar en consola `npm init` y colocar la siguiente información:
+
+| Parámetro          | Valor |
+| ------------------ | --------------------------------------------- |
+| **Name**           | cypress-training   |
+| **Version**        | _[Por Defecto]_    |
+| **Description**    | This is a Workshop about Cypress |
+| **Entry Point**    | _[Por Defecto]_    |
+| **Test Command**   | `cypress open`     |
+| **Git Repository** | _[Por Defecto]_    |
+| **Keywords**       | ui-testing, dojo, practice, cypress |
+| **Author**         | _[Su nombre]_ <_[Su correo]_> (_[su GitHub]_) |
+| **License**        | MIT                |
+
+2.5. Realizar un commit donde incluya los archivos creados con el mensaje “setup project configuration” y subir los cambios al repositorio:
 
    ```bash
    git add .
@@ -106,9 +117,9 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
    git push origin setup
    ```
 
-6. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (en este caso deberá hacer los ajustes requeridos, subir los cambios y esperar nuevamente la aprobación) de los revisores . Si no sabe cómo realizarlo, le recomendamos leer el siguiente artículo [instrucciones](https://help.github.com/articles/creating-a-pull-request/).
+2.6. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (en este caso deberá hacer los ajustes requeridos, subir los cambios y esperar nuevamente la aprobación) de los revisores . Si no sabe cómo realizarlo, le recomendamos leer el siguiente artículo [instrucciones](https://help.github.com/articles/creating-a-pull-request/).
 
-7. Una vez hemos obtenido la aprobación de los revisores, realizar el merge a main seleccionando la opción “squash and merge” (squash te permite unir todos los commits en un solo, es más por un concepto de organización). Posteriormente, en su rama local "main" realice el pull para traer los cambios mergeados en el PR.
+2.7. Una vez hemos obtenido la aprobación de los revisores, realizar el merge a main seleccionando la opción “squash and merge” (squash te permite unir todos los commits en un solo, es más por un concepto de organización). Posteriormente, en su rama local "main" realice el pull para traer los cambios mergeados en el PR.
 
    ```bash
    git checkout main
@@ -117,47 +128,40 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 
 ## 3. Instalación de Cypress
 
-1. Ejecutar el siguiente comando:
+3.1. Ejecutar el siguiente comando:
 
    ```bash
    npm install -D cypress
    ```
 
-2. Esto instalará cypress dentro del **node_modules**. Para verificar la correcta instalacion e iniciar la configuracion para ver el demo de cypress, ejecutamos el siguiente comando:
+3.2. Esto instalará cypress dentro del **node_modules**. Para verificar que la instalación fue exitosa e iniciar la configuración, ejecutamos el siguiente comando:
 
    ```bash
    npm test
    ```
 
-   - Si te aparece un mensaje de Windows Defender similar al de la imagen, selecciona todas las opciones y presiona el boton Allow Access.
-     ![allow access](media/allow-access.png)
+- Si te aparece un mensaje de Windows Defender similar al de la imagen, selecciona todas las opciones y presiona el botón Allow Access.
+  ![allow access](media/allow-access.png)
 
-   - Después, se abrirá una ventana dandote la bienvenida Cypress. Te dara a escoger entre dos opciones (E2E Testing y Component Testing). Selecciona E2E Testing.
-     ![cypress install step 1](media/cypress-install-step-1.png)
+- Después, se abrirá una ventana dándote la bienvenida Cypress. Te dará a escoger entre dos opciones (E2E Testing y Component Testing). Selecciona E2E Testing.
+  ![cypress install step 1](media/cypress-install-step-1.png)
 
-   - Luego, Cypress mostrará el contenido de 4 archivos que agregará a nuestro proyecto: `cypress.config.js`, `cypress\support\e2e.js`, `cypress\support\commands.js`, `cypress\fixtures\example.json`. Presiona el boton de continuar.
-     ![cypress install step 2](media/cypress-install-step-2.png)
+- Luego, Cypress mostrará el contenido de 4 archivos que agregará a nuestro proyecto: `cypress.config.js`, `cypress\support\e2e.js`, `cypress\support\commands.js`, `cypress\fixtures\example.json`. Presiona el botón de continuar.
+  ![cypress install step 2](media/cypress-install-step-2.png)
 
-   - A continuación, Cypress te pedira que selecciones uno de los navegadores soportados. Seleccionaras `Chrome`, y luego presionaras el botón "Start E2E Testing in Chrome".
-     ![cypress install step 3](media/cypress-install-step-3.png)
+- A continuación, Cypress te pedirá que selecciones uno de los navegadores soportados. Seleccionarás `Chrome`, y luego presionarás el botón "Start E2E Testing in Chrome".
+  ![cypress install step 3](media/cypress-install-step-3.png)
 
-   - Después, Cypress abrirá una ventana de Chrome y te pedira que elijas entre dos opciones. Selecciona "Scaffold example specs". Esto generará varios archivos de prueba, con ejemplos acerca de como utilizar cypress.
-     ![cypress install step 4](media/cypress-install-step-4.png)
+- Después, Cypress abrirá una ventana de Chrome y te pedirá que elijas entre dos opciones. Selecciona "Scaffold example specs". Esto generará varios archivos de prueba, con ejemplos acerca de como utilizar cypress.
+  ![cypress install step 4](media/cypress-install-step-4.png)
 
-   - Por último, Cypress te mostrara todos los archivos que ha generado. Presiona el boton "Okay, I got it!"
+- Por último, Cypress te mostrará todos los archivos que ha generado. Presiona el botón "Okay, I got it!"
 
-3. Selecciona alguno de los archivos que cypress ha generado, para ejecutar las pruebas de ejemplo. Es aquí donde vemos cómo funciona la magia de cypress. Una vez finalice, cerramos la ventana de cypress.
+3.3. Selecciona alguno de los archivos que cypress ha generado, para ejecutar las pruebas de ejemplo. Es aquí donde vemos cómo funciona la magia de cypress. Una vez finalice, cerramos la ventana de cypress.
 
-4. Agregue a la seccion de cypress de su archivo **.gitignore** las siguientes líneas para no subir las pruebas que hacen parte del demo:
+3.4. Observar que se crea una carpeta llamada **cypress** con [la siguiente estructura](https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests.html#Folder-Structure)
 
-   ```bash
-   cypress/e2e/1-getting-started/*
-   cypress/e2e/2-advanced-examples/*
-   ```
-
-5. Observar que se crea una carpeta llamada **cypress** con [la siguiente estructura](https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests.html#Folder-Structure)
-
-6. Modificar el archivo `package.json` la propiedad `test` ubicada dentro de la seccion de `scripts` para que quede de la siguiente manera:
+3.5. Modificar el archivo `package.json` la propiedad `test` ubicada dentro de la sección de `scripts` para que quede de la siguiente manera:
 
    ```json
    "scripts": {
@@ -166,19 +170,21 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
    },
    ```
 
-7. Ésto hará que el comando `test:open` ejecute la instrucción `cypress open`. Ejecuta el comando `npm run test:open` para verificar que el demo de cypress ahora se inicia con este comando.
+3.6. Ésto hará que el comando `test:open` ejecute la instrucción `cypress open`. Ejecuta el comando `npm run test:open` para verificar que el demo de cypress ahora se inicia con este comando.
 
-8. Crear una rama y realizar un commit donde incluya los archivos creados y/o modificados en esta sección, con el mensaje “setup cypress configuration” y subir los cambios al repositorio
+3.7. Crear una rama y realizar un commit donde incluya los archivos creados y/o modificados en esta sección, con el mensaje “setup cypress configuration” y subir los cambios al repositorio.
 
-9. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora
+3.8. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora.
 
-10. Una vez hemos obtenido la aprobación de los revisores, realizar el merge a main seleccionando la opción “squash and merge” (squash te permite unir todos los commits en un solo, es más por un concepto de organización). Posteriormente, en su rama local "main" realice el pull para traer los cambios mergeados en el PR.
+3.9. Una vez hemos obtenido la aprobación de los revisores, realizar el merge a la rama main seleccionando la opción “squash and merge” (squash te permite unir todos los commits en un solo, es más por un concepto de organización). Posteriormente, en su rama local "main" realice el pull para traer los cambios mergeados en el PR.
+
+> <b><u>Nota:</u></b> Recuerda que de aquí en adelante todo cambio/mejora (o punto por iniciar) que realices deberá tener una rama propia.
 
 ## 4. Creando la primera prueba
 
 Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que contienen ejemplos: `cypress/e2e/1-getting-started` y `cypress/e2e/2-advanced-examples`.
 
-1. Creamos un archivo llamado `google.cy.js` dentro de la carpeta `/cypress/e2e/` con el siguiente contenido:
+4.1. Creamos un archivo llamado `google.cy.js` dentro de la carpeta `/cypress/e2e/` con el siguiente contenido:
 
    ```javascript
    describe("This is my first cypress test", () => {
@@ -189,21 +195,21 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
    });
    ```
 
-2. Ejecutar el comando `npm run test:open` para correr la prueba (deberas seleccionar la opcion "E2E Testing" y despues seleccionar nuevamente el navegador chrome y presionar el boton "Start E2E Testing in Chrome"). Una vez finalice y si todo está bien veremos que la prueba paso satisfactoriamente:
+4.2. Ejecutar el comando `npm run test:open` para correr la prueba (deberá seleccionar la opción "E2E Testing" y después seleccionar nuevamente el navegador chrome y presionar el botón "Start E2E Testing in Chrome"). Una vez finalice y si todo está bien veremos que la prueba paso satisfactoriamente:
 
-   ![google spec result browser](media/google-spec-result.png)
+![google spec result browser](media/google-spec-result.png)
 
-3. Cree una nueva rama y envie el Pull Request con estos cambios (incluya una captura de pantalla donde se evidencie que las pruebas estan pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
+4.3. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## 5. Configurando las pruebas con TypeScript
 
-1. Instalar las dependencias necesarias para la transpilación de nuestras pruebas escritas en TypeScript a JavaScript por medio de la instalacion de la dependencia de TypeScript.
+5.1. Instalar las dependencias necesarias para la transpilación de nuestras pruebas escritas en TypeScript a JavaScript por medio de la instalación de la dependencia de TypeScript.
 
    ```bash
    npm install --save-dev typescript
    ```
 
-2. Crear el archivo `tsconfig.json` en la raiz del proyecto y copiar dentro de este la siguiente configuración:
+5.2. Crear el archivo `tsconfig.json` en la raiz del proyecto y copiar dentro de este la siguiente configuración:
 
    ```json
    {
@@ -219,50 +225,50 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
    }
    ```
 
-3. Cambiar la extensión de nuestra prueba `cypress.config.js` por `cypress.config.ts` y reemplace el codigo existente por este:
+5.3. Cambiar el nombre y la extensión de nuestro archivo de configuración `cypress.config.js` por `cypress.config.ts`.
 
-   ```js
+<b><u>Nota:</u></b> Si presenta problemas con la ejecución de alguna prueba, te aparece un mensaje de error tipo "SecurityError: Blocked a frame with origin...", y reemplace el código existente por este:
+
+```js
    import { defineConfig } from "cypress";
 
    export default defineConfig({
-     // setupNodeEvents can be defined in either
-     // the e2e or component configuration
      e2e: {
-       setupNodeEvents(on, config) {
-         // modify config values examples
-         // config.defaultCommandTimeout = 10000
-
-         // IMPORTANT return the updated config object
-         return config;
+      chromeWebSecurity: false,
+      setupNodeEvents(on, config) {
+        // e2e testing node events setup code
+        return config;
        },
      },
    });
    ```
 
-4. Cambiar la extensión de nuestra prueba los siguientes archivos
+> Te recomendamos visitar este enlace donde conocerás más sobre como configurar el file: [Configuration File - Cypress](https://docs.cypress.io/guides/references/configuration)
 
-   - `commands.js` -> `commands.ts`
-   - `e2e.js` -> `e2e.ts`
+5.4. Cambiar la extensión de nuestros archivos ubicados en la carpeta `support` por:
 
-5. Cambiar la extensión de nuestra prueba `google.cy.js` por `google.cy.ts` y ejecutar el comando de pruebas para comprobar que la transpilación se ejecuta correctamente al correr las pruebas
+- `commands.js` -> `commands.ts`
+- `e2e.js` -> `e2e.ts`
+
+5.5. Cambiar la extensión de nuestra prueba `google.cy.js` por `google.cy.ts` y ejecutar el comando de pruebas para comprobar que la transpilación se ejecuta correctamente al correr las pruebas
 
    ```bash
    npm run test:open
    ```
 
-6. Cree una nueva rama y envie el Pull Request con estos cambios (incluya una captura de pantalla donde se evidencie que las pruebas estan pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
+5.6. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
-## 6. Análisis de código estatico
+## 6. Análisis de código estático
 
-1. Para realizar el análisis de código estatico usaremos la herramienta ESLint para validar un conjunto de reglas sobre el código de pruebas y mantener un estilo consistente. Para esto se debe instalar ESLint como dependecia de desarrollo, luego iniciar la configuración del linter y seguimos los pasos que aparecen en consola (ver respuestas sugeridas y gif):
+6.1. Para realizar el análisis de código estático usaremos la herramienta ESLint para validar un conjunto de reglas sobre el código de pruebas y mantener un estilo consistente. Para esto se debe instalar ESLint como dependencia de desarrollo, luego iniciar la configuración del linter y seguimos los pasos que aparecen en consola (ver respuestas sugeridas y GIF):
 
    ```bash
    npm install eslint --save-dev
-   npx eslint --init
+   npx eslint --init  // (en caso de error utilizar: npm init @slint/config)
    ```
 
    <details>
-   <summary><b><u>Mostrar configuracion detallada eslint</u></b></summary>
+   <summary><b><u>Mostrar configuración detallada eslint</u></b></summary>
 
    ```bash
    Need to install the following packages:
@@ -288,9 +294,6 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
    ? How would you like to define a style for your project? ...
    Opcion 1: > Use a popular style guide
 
-   ? Which style guide do you want to follow? ...
-   Opcion 3: > Google
-
    ? What format do you want your config file to be in? ...
    Opcion 1: > JavaScript
 
@@ -300,36 +303,46 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
 
    </details>
 
-   ![eslint-config](media/eslint-configuration.gif).
+![eslint-config](media/eslint-configuration.gif)
 
-2. Instalar una extension del linter para cypress que contiene reglas de estilo siguiendo las buenas practicas que sugiere cypress:
+6.2. Instalar una extensión del linter para cypress que contiene reglas de estilo siguiendo las buenas prácticas que sugiere cypress:
 
    ```bash
    npm install eslint-plugin-cypress --save-dev
    ```
 
-3. Luego agregar el plugin de cypress y las reglas en el archivo eslintrc.js
+6.3. Luego agregar el plugin de cypress y las reglas en el archivo eslintrc.js verifique tener esta estructura:
 
    ```javascript
-   ...
-       "plugins": [
-         "@typescript-eslint",
-         "cypress"
-       ],
-       "rules": {
-         "quotes": ["error", "double"],
-         "cypress/no-assigning-return-values": "error",
-         "cypress/no-unnecessary-waiting": "error",
-         "cypress/assertion-before-screenshot": "warn",
-         "cypress/no-force": "warn",
-         "no-unused-vars": "warn",
-         "require-jsdoc": "warn",
-         "max-len": [ "error", { "code": 120 } ]
-       },
-   ...
+   module.exports = {
+      "env": {
+          "browser": true,
+          "es2021": true
+      },
+      "overrides": [
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+          "ecmaVersion": "latest"
+      },
+      "plugins": [
+          "@typescript-eslint",
+          "cypress"
+      ],
+      "rules": {
+          "quotes": ["error", "double"],
+          "cypress/no-assigning-return-values": "error",
+          "cypress/no-unnecessary-waiting": "error",
+          "cypress/assertion-before-screenshot": "warn",
+          "cypress/no-force": "warn",
+          "no-unused-vars": "warn",
+          "require-jsdoc": "warn",
+          "max-len": [ "error", { "code": 120 } ]
+      }
+   }
    ```
 
-4. Posteriormente modificamos el script test:open en el "package.json" para ejecutar la verificación de código estático antes de correr las pruebas:
+6.4. Posteriormente modificamos el script test:open en el "package.json" para ejecutar la verificación de código estático antes de correr las pruebas:
 
    ```json
    "scripts": {
@@ -339,17 +352,17 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
    },
    ```
 
-5. Ejecutamos las pruebas por corriendo el comando test:open
+6.5. Ejecutamos las pruebas corriendo el comando test:open
 
    ```bash
    npm run test:open
    ```
 
-   > **Nota:** En caso de tener errores, algunos de ellos son posible arreglarlos autoáticamente añadiendo el argumento --fix, es decir, usamos `npm run lint -- --fix`.
+> **Nota:** En caso de tener errores, algunos de ellos son posible arreglarlos automáticamente añadiendo el argumento --fix, es decir, usamos `npm run lint -- --fix`.
 
-6. Cree una nueva rama y envie el Pull Request con estos cambios (incluya una captura de pantalla donde se evidencie que las pruebas estan pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
+6.6. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
-## 7. Configurar Integracion Continua (CI)
+## 7. Configurar Integración Continua (CI)
 
 En esta sección se configura la integración continua por medio de GitHub Actions, lo cual nos permitirá correr nuestras pruebas en un servidor remoto y validar continuamente que los cambios que vamos a ingresar a nuestra aplicación no han afectado su funcionamiento correcto.
 
@@ -409,7 +422,7 @@ En esta sección se configura la integración continua por medio de GitHub Actio
 
    _Nota_: El action de cypress ejecuta por default el comando `npm test`
 
-     </details>
+   </details>
 
 3. Crea el archivo `.nvmrc` y especifica la version de Node.js que seas usar para la ejecución.
 
@@ -839,21 +852,21 @@ Muchas gracias por haber participado del Workshop de Cypress!!!!! Esperamos que 
 
 Te invitamos a seguir aprendiendo, y te dejamos unos temas para que investigues y sigas estudiando:
 
-- Component testing UI
-- End-to-End Testing API
-- Component Testing API
-- Mutatation Tests
-- Contract Tests
+- End-to-End API Testing
+- Component Testing
+- Mutation Testing
+- Contract Testing
+- Exploratory Testing
 
 Sigue aprendiendo! :smile: :book:
 
 ## Challenges
 
-Hay muchos temas que puedes seguir aprendiendo y herramientas que puedes incluir, estos son algunos de los Retos que te dejamos :smiley:
+Hay muchos temas que puedes seguir aprendiendo y herramientas que puedes incluir, estos son algunos de los Retos que te dejamos.
 
-### Given - When - Then
+## Given - When - Then
 
-Otro estilo de escritura de pruebas muy similar al patron AAA que ya aprendimos es el Given-When-Then, aqui te dejamos un blog para que inicies tu estudio de este estilo y un link a una libreria para que lo lleves a la practica:
+Otro estilo de escritura de pruebas muy similar al patrón AAA que ya aprendimos es el Given-When-Then, aquí te dejamos un blog para que inicies tu estudio de este estilo y un link a una librería para que lo lleves a la práctica:
 
 - [Blog - Martin Fowler](https://martinfowler.com/bliki/GivenWhenThen.html)
-- [Libreria - Cucumber for cypress](https://www.npmjs.com/package/cypress-cucumber-preprocessor)
+- [Librería - Cucumber for cypress](https://www.npmjs.com/package/cypress-cucumber-preprocessor)

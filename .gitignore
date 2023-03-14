@@ -201,4 +201,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Idea folder
+.idea/
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,windows,cypressio
