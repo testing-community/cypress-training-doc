@@ -36,7 +36,6 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 1. [Descargando un archivo](#16-descargando-un-archivo)
 1. [Interactuando con IFrames](#17-interactuando-con-iframes)
 
-
 ## 1. Creación y configuración del repositorio
 
 1.1. Crear un repositorio en GitHub con el nombre de **cypress-training** (previo requisito disponer de una cuenta en GitHub, no seleccione ninguna opción de inicialización de repositorio).
