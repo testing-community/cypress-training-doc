@@ -37,13 +37,20 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 1. [Interactuando con IFrames](#17-interactuando-con-iframes)
 
 
-# 1. Creación y configuración del repositorio
+## 1. Creación y configuración del repositorio
 
 1.1. Crear un repositorio en GitHub con el nombre de **cypress-training** (previo requisito disponer de una cuenta en GitHub, no seleccione ninguna opción de inicialización de repositorio).
 
 1.2. Crear localmente una carpeta con el nombre de **cypress-training** y luego sitúese dentro de la carpeta.
 
 1.3. Crear el archivo **.gitignore** en la raíz del proyecto, luego ingrese a la página <https://www.toptal.com/developers/gitignore> y en el campo de texto digite su sistema operativo (ej: windows, osx, macos) y selecciónelo de la lista de autocompletar. Repita este paso para su entorno de desarrollo (ej:vscode, sublime, intellij, jetbrains), también agregue la palabra `node` y por último `CypressIO`. Presione el botón "Create" para crear el archivo que contendrá una lista de carpetas y archivos de exclusión y copie su contenido dentro del archivo **.gitignore**.
+
+Adicionalmente agregue a su archivo **.gitignore** las siguientes líneas para no subir las pruebas que hacen parte del demo:
+
+   ```bash
+   cypress/e2e/1-getting-started/*
+   cypress/e2e/2-advanced-examples/*
+   ```
 
 1.4. A continuación realice el primer commit y suba los cambios en su repositorio remoto de GitHub, digitando los siguientes comandos en tu consola (cada línea es un comando distinto):
 
@@ -56,40 +63,42 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
    git remote add origin https://github.com/<usuario>/cypress-training.git
    git push -u origin main
    ```
+  > <b><u>Nota:</b></u> debé reemplazar `<usuario>` por su usuario de github.
 
 1.5. Protege la rama `main` para que los pull request requieran revisión de otros desarrolladores, esto te permite comprobar el estado de nuestros test ("ok" :heavy_check_mark: o "fallaron" :x:) antes de hacer un merge en la rama.
 
 > Ir a Settings > Branches adicionamos una regla dando click en **add rule**. Escribimos `main` en el campo de **branch name pattern**. Una vez hecho eso, damos click en las siguientes opciones:
 > ![branch rules](media/branch_protection_configuration.png)
 
-1.6. Añadir como colaboradores a:
+1.6. Si tiene un mentor asignado, agrega a tu mentor como colaborador, adicionalmente, también puedes agregar a las siguientes personas (quienes te podrán ayudar, en la medida que su tiempo se los permita):
+
 - [holgiosalos](https://github.com/holgiosalos)
-- [Valeryibarra](https://github.com/Valeryibarra)
 - [aperdomob](https://github.com/aperdomob)
 - [manuelq12](https://github.com/manuelq12)
 - [JuanDelahozMiranda](https://github.com/JuanDelahozMiranda)
 
+## 2. Configuración inicial del proyecto
 
-# 2. Configuración inicial del proyecto
-
-2.1. Instalar la versión `v16.X.0` (o superiores) de Node.js.
+2.1. Instalar la última versión LTS disponible de Node.js.
 
 **Notas:**
-- Recomendamos usar [nvm](https://github.com/nvm-sh/nvm) como manejador de versiones (Opcional).
-- Necesariamente no tienes que instalar la versión 16 de NodeJS, pero si recomendamos instalar una versión LTS, hemos probado este workshop con las versiones `v14.X.0` ó `v16.X.0`.
+
+- Hemos probado este workshop con las versiones `v14.X.0`, `v16.X.0` y `v18.X.0`, No necesariamente tiene que instalar una de las versiones anteriores mencionadas, pero si recomendamos instalar una versión LTS.
 
 2.2. Crear una nueva rama local ejecutando por consola `git checkout -b setup`.
 
 2.3. Crear una carpeta en la raíz del proyecto llamada `.github` con un archivo llamado `CODEOWNERS` (sin extensión) con lo siguiente:
 
    ```bash
-   * @holgiosalos @valeryibarra @aperdomob @manuelq12 @JuanDelahozMiranda
+   * @holgiosalos @aperdomob @manuelq12 @JuanDelahozMiranda
    ```
+
+> <b>Nota:</b> recuerda que si tiene un mentor asignado debe agregarlo como colaborador.
 
 2.4. Ejecutar en consola `npm init` y colocar la siguiente información:
 
 | Parámetro          | Valor |
-   | ------------------ | --------------------------------------------- |
+| ------------------ | --------------------------------------------- |
 | **Name**           | cypress-training   |
 | **Version**        | _[Por Defecto]_    |
 | **Description**    | This is a Workshop about Cypress |
@@ -117,8 +126,7 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
    git pull
    ```
 
-
-# 3. Instalación de Cypress
+## 3. Instalación de Cypress
 
 3.1. Ejecutar el siguiente comando:
 
@@ -151,16 +159,9 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 
 3.3. Selecciona alguno de los archivos que cypress ha generado, para ejecutar las pruebas de ejemplo. Es aquí donde vemos cómo funciona la magia de cypress. Una vez finalice, cerramos la ventana de cypress.
 
-3.4. Agregue a la sección de cypress de su archivo **.gitignore** las siguientes líneas para no subir las pruebas que hacen parte del demo:
+3.4. Observar que se crea una carpeta llamada **cypress** con [la siguiente estructura](https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests.html#Folder-Structure)
 
-   ```bash
-   cypress/e2e/1-getting-started/*
-   cypress/e2e/2-advanced-examples/*
-   ```
-
-3.5. Observar que se crea una carpeta llamada **cypress** con [la siguiente estructura](https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests.html#Folder-Structure)
-
-3.6. Modificar el archivo `package.json` la propiedad `test` ubicada dentro de la sección de `scripts` para que quede de la siguiente manera:
+3.5. Modificar el archivo `package.json` la propiedad `test` ubicada dentro de la sección de `scripts` para que quede de la siguiente manera:
 
    ```json
    "scripts": {
@@ -169,18 +170,17 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
    },
    ```
 
-3.7. Ésto hará que el comando `test:open` ejecute la instrucción `cypress open`. Ejecuta el comando `npm run test:open` para verificar que el demo de cypress ahora se inicia con este comando.
+3.6. Ésto hará que el comando `test:open` ejecute la instrucción `cypress open`. Ejecuta el comando `npm run test:open` para verificar que el demo de cypress ahora se inicia con este comando.
 
-3.8. Crear una rama y realizar un commit donde incluya los archivos creados y/o modificados en esta sección, con el mensaje “setup cypress configuration” y subir los cambios al repositorio.
+3.7. Crear una rama y realizar un commit donde incluya los archivos creados y/o modificados en esta sección, con el mensaje “setup cypress configuration” y subir los cambios al repositorio.
 
-3.9. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora.
+3.8. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora.
 
-3.10. Una vez hemos obtenido la aprobación de los revisores, realizar el merge a la rama main seleccionando la opción “squash and merge” (squash te permite unir todos los commits en un solo, es más por un concepto de organización). Posteriormente, en su rama local "main" realice el pull para traer los cambios mergeados en el PR.
+3.9. Una vez hemos obtenido la aprobación de los revisores, realizar el merge a la rama main seleccionando la opción “squash and merge” (squash te permite unir todos los commits en un solo, es más por un concepto de organización). Posteriormente, en su rama local "main" realice el pull para traer los cambios mergeados en el PR.
 
 > <b><u>Nota:</u></b> Recuerda que de aquí en adelante todo cambio/mejora (o punto por iniciar) que realices deberá tener una rama propia.
 
-
-# 4. Creando la primera prueba
+## 4. Creando la primera prueba
 
 Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que contienen ejemplos: `cypress/e2e/1-getting-started` y `cypress/e2e/2-advanced-examples`.
 
@@ -201,8 +201,7 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
 
 4.3. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
-
-# 5. Configurando las pruebas con TypeScript
+## 5. Configurando las pruebas con TypeScript
 
 5.1. Instalar las dependencias necesarias para la transpilación de nuestras pruebas escritas en TypeScript a JavaScript por medio de la instalación de la dependencia de TypeScript.
 
@@ -247,6 +246,7 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
 > Te recomendamos visitar este enlace donde conocerás más sobre como configurar el file: [Configuration File - Cypress](https://docs.cypress.io/guides/references/configuration)
 
 5.4. Cambiar la extensión de nuestros archivos ubicados en la carpeta `support` por:
+
 - `commands.js` -> `commands.ts`
 - `e2e.js` -> `e2e.ts`
 
@@ -258,8 +258,7 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
 
 5.6. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
-
-# 6. Análisis de código estático
+## 6. Análisis de código estático
 
 6.1. Para realizar el análisis de código estático usaremos la herramienta ESLint para validar un conjunto de reglas sobre el código de pruebas y mantener un estilo consistente. Para esto se debe instalar ESLint como dependencia de desarrollo, luego iniciar la configuración del linter y seguimos los pasos que aparecen en consola (ver respuestas sugeridas y gif):
 
@@ -295,15 +294,13 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
    ? How would you like to define a style for your project? ...
    Opcion 1: > Use a popular style guide
 
-   ? Which style guide do you want to follow? ...
-   Opcion 3: > Google
-
    ? What format do you want your config file to be in? ...
    Opcion 1: > JavaScript
 
    ? Would you like to install them now with npm?
    Yes
    ```
+
    </details>
 
 ![eslint-config](media/eslint-configuration.gif)
@@ -365,8 +362,7 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
 
 6.6. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
-
-# 7. Configurar Integración Continua (CI)
+## 7. Configurar Integración Continua (CI)
 
 En esta sección se configura la integración continua por medio de GitHub Actions, lo cual nos permitirá correr nuestras pruebas en un servidor remoto y validar continuamente que los cambios que vamos a ingresar a nuestra aplicación no han afectado su funcionamiento correcto.
 
@@ -426,7 +422,7 @@ En esta sección se configura la integración continua por medio de GitHub Actio
 
    _Nota_: El action de cypress ejecuta por default el comando `npm test`
 
-     </details>
+   </details>
 
 3. Crea el archivo `.nvmrc` y especifica la version de Node.js que seas usar para la ejecución.
 
@@ -446,7 +442,7 @@ En esta sección se configura la integración continua por medio de GitHub Actio
 
 5. Finalmente subir los cambios al repositorio y crear un Pull Request. Se ejecutaran las pruebas en el servidor que provee GitHub Actions y se mostrara los resultados de la ejecución en el PR.
 
-# 8 Selectores CSS
+## 8 Selectores CSS
 
 En esta sección se realiza un flujo para comprar una camiseta en la tienda de ropa: <http://automationpractice.com/>, vamos a usar los CSS selector para interactuar con cada elemento del DOM.
 
@@ -511,7 +507,7 @@ Vamos a realizar los siguientes pasos, para automatizar el flujo de compra:
 
 3. Para finalizar sube tus cambios al repositorio y crea un PR.
 
-# 9 Page Object Model (POM)
+## 9 Page Object Model (POM)
 
 Page Object Model es un patron para mejorar la mantenibilidad de las pruebas ya que podemos establecer una capa intermedia entre las pruebas y UI de la aplicación, ya que los cambios que requieran las pruebas debido a cambios en la aplicación se pueden realizar rapidamente en el POM. Te recomendamos investigar el patrón y otros patrones utiles que puedan ser usados para el código de pruebas.
 
@@ -582,7 +578,7 @@ En esta sección presentaras una propuesta para los selectores que se estan usan
 2. Verificar que las pruebas pasen
 3. Crear un PR y solicitar revisión. El revisor comentará los selectores con los que no esta de acuerdo, en ese caso, justifique su propesta de selector. (No use **XPATH**)
 
-# 11. AAA pattern
+## 11. AAA pattern
 
 Un patrón común para escribir pruebas es el patrón AAA que nos ayuda a definir una estructura ordenada de cada prueba, por medio de 3 pasos:
 
@@ -658,7 +654,7 @@ Vamos a agregar una nueva prueba y la estructuramos usando el patrón AAA:
 
 > **tip:** Recuerda aplicar los Page Object al construir la prueba. Probablemente requieras agregar un metodo al `MenuContentPage`. <br/> **Nota:** Investiga como funciona los métodos **validate** en el archivo `dresses-list.page.ts`.
 
-# 12. Listas de elementos, filtros y elementos dentro de elementos
+## 12. Listas de elementos, filtros y elementos dentro de elementos
 
 En algunos escenarios debemos trabajar con lista de elementos, realizar busquedas sobre locator anidados o realizar acciones sobre elementos hijos del selector que tenemos disponible.
 
@@ -672,7 +668,7 @@ En algunos escenarios debemos trabajar con lista de elementos, realizar busqueda
 
 5. Sube la rama, crea un pull request y solicita la revisión del cambio
 
-# 13. Mejorando los reportes - Mochawesome
+## 13. Mejorando los reportes - Mochawesome
 
 Algunas veces es bueno mejorar el reporte visual de la ejecución de nuestras pruebas, para eso agregaremos `mochawesome` y lo integraremos con cypress. Siga los siguientes pasos:
 
@@ -723,7 +719,7 @@ Algunas veces es bueno mejorar el reporte visual de la ejecución de nuestras pr
 
 6. Sube el cambio con una foto del reporte generado por `mochawesome`, crea un PR y solicita la revisión.
 
-# 14. Filling form
+## 14. Filling form
 
 Usualmente en las aplicaciones nos encontramos formularios que los usuarios deben llenar para guardar información. En esta sección interactuaremos con algunos de los componentes más comunes que nos podemos encontrar. La prueba consiste en:
 
@@ -773,7 +769,7 @@ Usualmente en las aplicaciones nos encontramos formularios que los usuarios debe
 
 4. Verifique que las pruebas pasen, cree un PR y solicite la revisión.
 
-# 15. Subiendo un archivo
+## 15. Subiendo un archivo
 
 Usualmente nos podemos encontrar con la necesidad de subir archivos por medio de nuestra aplicación web. Realizaremos los siguiente:
 
@@ -807,7 +803,7 @@ Para esta sección descargaremos un archivo y verificaremos el contenido, realiz
 
 4. Crea un PR y solicita revisión.
 
-# 17. Interactuando con IFrames
+## 17. Interactuando con IFrames
 
 Los iframes son elementos HTML que nos podemos encontrar comunmente en aplicaciones web antiguas, pero es bueno saber como interactuar con ellos. En esta sección interactuaremos, navegaremos y verificaremos data dentro de un iframe.
 
@@ -850,7 +846,7 @@ Los iframes son elementos HTML que nos podemos encontrar comunmente en aplicacio
 
    </details>
 
-# Conclusión
+## Conclusión
 
 Muchas gracias por haber participado del Workshop de Cypress!!!!! Esperamos que tengas nuevos conocimientos que impulsen tu carrera profesional.
 
@@ -864,8 +860,7 @@ Te invitamos a seguir aprendiendo, y te dejamos unos temas para que investigues 
 
 Sigue aprendiendo! :smile: :book:
 
-
-# Challenges
+## Challenges
 
 Hay muchos temas que puedes seguir aprendiendo y herramientas que puedes incluir, estos son algunos de los Retos que te dejamos.
 
