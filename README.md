@@ -1,6 +1,6 @@
 # Workshop Cypress
 
-Bienvenido al Workshop de Cypress!!! Durante el taller exploraremos los conocimientos necesarios para construir pruebas automatizadas desde la interfaz gráfica (GUI) usando Cypress. Durante el taller exploraremos la configuración de un proyecto desde cero, prepararlo para un proceso de integración continua por medio de Github Actions, interactuar con diferentes componentes y mucho más.
+Bienvenido al Workshop de Cypress!!! Durante el taller exploraremos los conocimientos necesarios para construir pruebas automatizadas desde la interfaz gráfica (GUI) usando Cypress. Durante el taller exploraremos la configuración de un proyecto desde cero, prepararlo para un proceso de integración continua por medio de GitHub Actions, interactuar con diferentes componentes y mucho más.
 
 Para el desarrollo del taller usaremos [GitHub](https://github.com/), [GitHub Flow](https://guides.github.com/introduction/flow/), [GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions), [NodeJS](https://nodejs.org/en/), [Cypress](https://www.cypress.io/) y TypeScript para realizar la entrega del ejercicio práctico.
 
@@ -42,7 +42,7 @@ Ten en cuenta tener estudiados ciertos conceptos importantes (te dejamos unos en
 
 1.2. Crear localmente una carpeta con el nombre de **cypress-training** y luego sitúese dentro de la carpeta.
 
-1.3. Crear el archivo **.gitignore** en la raíz del proyecto, luego ingrese a la página <https://www.toptal.com/developers/gitignore> y en el campo de texto digite su sistema operativo (ej: windows, osx, macos) y selecciónelo de la lista de autocompletar. Repita este paso para su entorno de desarrollo (ej:vscode, sublime, intellij, jetbrains), también agregue la palabra `node` y por último `CypressIO`. Presione el botón "Create" para crear el archivo que contendrá una lista de carpetas y archivos de exclusión y copie su contenido dentro del archivo **.gitignore**.
+1.3. Crear el archivo **.gitignore** en la raíz del proyecto, luego ingrese a la página <https://www.toptal.com/developers/gitignore> y en el campo de texto digite su sistema operativo (ej: windows, osx, macOS) y selecciónelo de la lista de autocompletar. Repita este paso para su entorno de desarrollo (ej:VsCode, Sublime, Intellij, JetBrains), también agregue la palabra `node` y por último `CypressIO`. Presione el botón "Create" para crear el archivo que contendrá una lista de carpetas y archivos de exclusión y copie su contenido dentro del archivo **.gitignore**.
 
 Adicionalmente agregue a su archivo **.gitignore** las siguientes líneas para no subir las pruebas que hacen parte del demo:
 
@@ -62,9 +62,9 @@ Adicionalmente agregue a su archivo **.gitignore** las siguientes líneas para n
    git remote add origin https://github.com/<usuario>/cypress-training.git
    git push -u origin main
    ```
-  > <b><u>Nota:</b></u> debé reemplazar `<usuario>` por su usuario de github.
+  > <b><u>Nota:</b></u> debé reemplazar `<usuario>` por su usuario de GitHub.
 
-1.5. Protege la rama `main` para que los pull request requieran revisión de otros desarrolladores, esto te permite comprobar el estado de nuestros test ("ok" :heavy_check_mark: o "fallaron" :x:) antes de hacer un merge en la rama.
+1.5. Protege la rama `main` para que los pull request requieran revisión de otros desarrolladores, esto te permite comprobar el estado de nuestros test ("OK" :heavy_check_mark: o "fallaron" :x:) antes de hacer un merge en la rama.
 
 > Ir a Settings > Branches adicionamos una regla dando click en **add rule**. Escribimos `main` en el campo de **branch name pattern**. Una vez hecho eso, damos click en las siguientes opciones:
 > ![branch rules](media/branch_protection_configuration.png)
@@ -259,7 +259,7 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
 
 ## 6. Análisis de código estático
 
-6.1. Para realizar el análisis de código estático usaremos la herramienta ESLint para validar un conjunto de reglas sobre el código de pruebas y mantener un estilo consistente. Para esto se debe instalar ESLint como dependencia de desarrollo, luego iniciar la configuración del linter y seguimos los pasos que aparecen en consola (ver respuestas sugeridas y gif):
+6.1. Para realizar el análisis de código estático usaremos la herramienta ESLint para validar un conjunto de reglas sobre el código de pruebas y mantener un estilo consistente. Para esto se debe instalar ESLint como dependencia de desarrollo, luego iniciar la configuración del linter y seguimos los pasos que aparecen en consola (ver respuestas sugeridas y GIF):
 
    ```bash
    npm install eslint --save-dev
@@ -569,7 +569,7 @@ A continuación realizar la transformación a POM, por medio de los siguientes p
 
 6. Cree un PR y solicitie revisión del punto anterior.
 
-# 10. Mejorando los selectores
+## 10. Mejorando los selectores
 
 En esta sección presentaras una propuesta para los selectores que se estan usando para la pruebas:
 
@@ -786,7 +786,7 @@ Usualmente nos podemos encontrar con la necesidad de subir archivos por medio de
 
 4. Verifica que las pruebas pasen, crea un PR y solicita revisión.
 
-# 16. Descargando un archivo
+## 16. Descargando un archivo
 
 Para esta sección descargaremos un archivo y verificaremos el contenido, realizaremos la siguiente prueba:
 
