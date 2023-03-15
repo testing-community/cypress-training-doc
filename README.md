@@ -746,7 +746,7 @@ Tan importante es el diseño como lo es el reporte visual de la ejecución de nu
 - **pre:** Limpiar el la carpeta de reportes
 - **post:** ejecutar los scripts para procesar el reporte generado por la ejecución de pruebas.
 
-**Tip:** Ten en cuenta que el servidor de CI (github Actions) se ejecuta en ambiente linux.
+**Tip:** Ten en cuenta que el servidor de CI (GitHub Actions) se ejecuta en ambiente linux.
 
 13.5. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
