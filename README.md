@@ -364,30 +364,27 @@ Una vez hemos ejecutado las pruebas de ejemplo, eliminamos las carpetas que cont
 
 ## 7. Configurar Integración Continua (CI)
 
-En esta sección se configura la integración continua por medio de GitHub Actions, lo cual nos permitirá correr nuestras pruebas en un servidor remoto y validar continuamente que los cambios que vamos a ingresar a nuestra aplicación no han afectado su funcionamiento correcto.
+En esta sección se configura la integración continua por medio de GitHub Actions, lo cual nos permitirá correr nuestras pruebas en un servidor remoto y validar continuamente que los cambios que vamos a ingresar a nuestra aplicación no han afectado su funcionamiento.
 
-1. Inicialmente modificar el siguiente script en el package.json para ejecutar todas las pruebas de `cypress/e2e/` sin tener que levantar la interfaz grafica del explorador. A esto le llamamos "headless mode":
+7.1. Inicialmente modificar el siguiente script en el package.json para ejecutar todas las pruebas de `cypress/e2e/` sin tener que levantar la interfaz gráfica del explorador. A esto le llamamos "headless mode":
 
    ```json
    "scripts": {
        ... scripts existentes, no borrar
-       "test": "cypress run"
+       "test": "cypress run --headless --browser chrome",
        ... scripts existentes, no borrar
      },
    ```
 
-2. Para crear la configuracion del workflow de GitHub actions, vamos a crear un archivo `main.yml` en el directorio `.github/workflows` que realice los siguientes `steps` cuando creamos o actualizamos un Pull Request:
+7.2. Para crear la configuración del workflow de GitHub Actions, vamos a crear un archivo `main.yml` en el directorio `.github/workflows` que realice los siguientes `steps` cuando creamos o actualizamos un Pull Request:
 
-   1. Obtener nuestro repositorio (A esto se le conoce como checkout)
-   2. Preparar el workflow para usar Node.js v16
-   3. Instalar dependencias
-   4. Ejecutar el analisis de codigo estatico
-   5. Ejecutar las pruebas E2E que hemos construido
+1. Obtener nuestro repositorio (A esto se le conoce como checkout)
+2. Preparar el workflow para usar Node.js v16
+3. Instalar dependencias
+4. Ejecutar el análisis de código estático
+5. Ejecutar las pruebas E2E que hemos construido
 
-   _Nota_: Intenta construir tu workflow, pero si te bloqueas, abajo tienes una seccion con una posible solucion
-
-   <details>
-   <summary><b><u>Mostrar una solucion</u></b></summary>
+<b><u>Nota:</u></b> Intente construir su workflow, pero si te bloqueas, abajo tienes una sección con una posible solución.
 
    ```yml
    name: Continuous integration
@@ -420,163 +417,187 @@ En esta sección se configura la integración continua por medio de GitHub Actio
              headed: true
    ```
 
-   _Nota_: El action de cypress ejecuta por default el comando `npm test`
+<b><u>Nota:</u></b> El action de cypress ejecuta por default el comando `npm test`
 
-   </details>
+7.3. Crea el archivo `.nvmrc` y especifica la versión de Node.js que deseas usar para la ejecución.
 
-3. Crea el archivo `.nvmrc` y especifica la version de Node.js que seas usar para la ejecución.
-
-4. Debido a que cypress por default graba videos de la ejecución de las pruebas es util desactivar esta funcionalidad para disminuir el tiempo de ejecución y el uso de recursos en el servidor del CI. Adicionalmente, desactivaremos temporalmente las capturas de pantalla debido a un [error](https://github.com/cypress-io/cypress/issues/5016) que aun no ha sido solucionado en las versiones recientes de cypress. Para esto se debe ingresar la siguiente configuración en el archivo `cypress.config.ts`
+7.4. Debido a que cypress por default graba videos de la ejecución de las pruebas es útil desactivar esta funcionalidad para disminuir el tiempo de ejecución y el uso de recursos en el servidor del CI. Adicionalmente, configuraremos algunos parámetros para tiempos de espera y desactivaremos temporalmente las capturas de pantalla debido a un [error](https://github.com/cypress-io/cypress/issues/5016) que aún no ha sido solucionado en las versiones recientes de cypress. Para esto se debe ingresar la siguiente configuración en el archivo `cypress.config.ts`
 
    ```js
-   // Codigo existente no modificar
+   // Código existente no modificar
    e2e: {
      // solo necesitas agregar estas dos propiedades, no incluir este comentario
      video: false,
      screenshotOnRunFailure: false,
+     chromeWebSecurity: false,
      setupNodeEvents(on, config) {
-       // Codigo existente no modificar
-     }
-     // Codigo existente no modificar
+      // e2e testing node events setup code
+      config.defaultCommandTimeout= 10000;
+      config.responseTimeout= 20000;
+      config.pageLoadTimeout= 60000;
+      return config;
+    }
+   // Código existente no modificar
    ```
 
-5. Finalmente subir los cambios al repositorio y crear un Pull Request. Se ejecutaran las pruebas en el servidor que provee GitHub Actions y se mostrara los resultados de la ejecución en el PR.
+7.5. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## 8 Selectores CSS
 
-En esta sección se realiza un flujo para comprar una camiseta en la tienda de ropa: <http://automationpractice.com/>, vamos a usar los CSS selector para interactuar con cada elemento del DOM.
+En esta sección deberá realizar un flujo adicional que verifique las acciones requeridas para comprar una camiseta en el sitio: <https://www.saucedemo.com/>.
 
-:scroll: Un poco de teoria: Para interactuar con los elementos del DOM se pueden usar varios mecanismos como CSS selectors, XPATH, jquery+CSS. Cada uno de estos tiene diferentes beneficios como su performance, legibilidad o la complejidad de la query del elemento con el cual queremos interactuar. Usualmente los CSS selector suelen ser mas rapidos y confiables en la mayoria de navegadores sin embargo lo XPATH permiten realizar busquedas de elementos mas complejas. Te recomendamos investigar las diferencias entre ambos tipos de selectores teniendo en cuenta factores como: manteniblidad, flexiblidad y velocidad de busqueda de un elemento.
+:scroll: Un poco de teoria: Para interactuar con los elementos del DOM se pueden usar varios mecanismos como CSS selectors, XPATH, jquery+CSS. Cada uno de estos tiene diferentes beneficios como su performance, legibilidad o la complejidad de la query del elemento con el cual queremos interactuar. Usualmente los CSS selector suelen ser más rápidos y confiables en la mayoría de navegadores sin embargo los XPATH permiten realizar búsquedas de elementos más complejas. Te recomendamos investigar las diferencias entre los tipos de selectores teniendo en cuenta factores como: manteniblidad, flexiblidad y velocidad de búsqueda de un elemento.
 
-Vamos a realizar los siguientes pasos, para automatizar el flujo de compra:
+A continuación lea y entienda detenidamente los pasos para automatizar el flujo de compra.
 
-1. Primero crear el archivo `buy-shirt.cy.ts` e incluir el siguiente codigo:
+El flujo que debes testear es:
 
-   ```js
-   describe("Buy a t-shirt", () => {
-     it("then the t-shirt should be bought", () => {
-       cy.visit("http://automationpractice.com/");
-       cy.get("#block_top_menu > ul > li:nth-child(3) > a").click();
-       cy.get(
-         "#center_column a.button.ajax_add_to_cart_button.btn.btn-default"
-       ).click();
-       cy.get("[style*='display: block;'] .button-container > a").click();
-       cy.get(".cart_navigation span").click();
+- Sección de Login:
+  - Visita el sitio web (1)
+  - Ingresa con credenciales válidas (2)
+- Sección de Productos:
+  - Selecciona el item "Sauce Labs Bolt T-Shirt" (3)
+- Sección de Producto
+  - Realiza click en "Add to cart" (4)
+  - Dirígete al carrito, ubicado arriba a la derecha (5)
+- Sección de Carrito:
+  - Realiza click en "checkout" (6)
+- Sección de Información:
+  - Digita "Cypress" como nombre (7)
+  - Digita "Workshop" como apellido (8)
+  - Digita "00000" como código postal (9)
+  - Realiza click en "Continue" (10)
+- Sección de Revisión:
+  - Realiza click en "Finish" (11)
+- Sección Checkout Finalizado:
+  - Verifica el mensaje en pantalla (12)
 
-       cy.get("#email").type("aperdomobo@gmail.com");
-       cy.get("#passwd").type("WorkshopProtractor");
+> Usa como apoyo el siguiente material para conocer más en detalle del flujo esperado. (extrae los CSS selector de la UI manualmente, termina la prueba y córrela local).
 
-       // Debes completar la prueba ...
+![Buy_flow](media/buy_flow.gif)
 
-       cy.get("#center_column > div > p > strong").should(
-         "have.text",
-         "Your order on My Store is complete."
-       );
+> Visita este video: [Iniciando a automatizar con Cypress](https://www.youtube.com/watch?v=z6ZK_FC2lkE), donde aprenderás como obtener los elementos web desde Cypress. </br>
+Este enlace para aprender más sobre: [Selectores CSS](https://www.w3.org/wiki/CSS_/_Selectores_CSS).
+
+8.1. Como Primer paso debe crear el archivo `buy-shirt.cy.ts` e incluir el siguiente código (recuerda completarlo según el flujo requerido):
+
+  ```js
+     describe("Buy a black t-shirt", () => {
+         it("then the t-shirt should be bought", () => {
+             cy.visit("https://www.saucedemo.com/"); //(1)
+             cy.get(".login-box > form > div > input#user-name").type("standard_user"); //(2)
+             cy.get(".login-box > form > div > input#password").type("secret_sauce"); //(2)
+             cy.get("input[type='submit']").click(); //(2)
+
+             // Debes completar la prueba con los puntos 3 al 11 del flujo
+
+             cy.get("#contents_wrapper > .checkout_complete_container > h2").should(
+                 "have.text",
+                 "Thank you for your order!"
+            ); //(12)
+         });
      });
-   });
-   ```
+  ```
 
-   El flujo que debes continuar es:
-
-   - Seccion de Sign In: Click en boton de Sign In (8)
-   - Seccion Address: Continuar el checkout (9)
-   - Seccion Shipping:
-     - Aceptar terminos y condiciones (10)
-     - luego continuar el checkout (11)
-   - Seccion Payment:
-     - click en pay by bank wire (12)
-     - confirmar orden (13)
-
-   Usa como apoyo las siguientes imagenes para conocer mas del flujo esperado, extrae los CSS selector de la UI manualmente, termina la prueba y correla local.
-
-   ![implementation-guide](media/implementation-guide.png)
-
-   ![buy-shirt-flow](media/buy-tshirt-flow.gif)
-
-2. En algunos la red u otros factores externos a la prueba pueden afectar los tiempos de espera, en el archivo de configuración de cypress `cypress.config.ts` modifica la funcion `setupNodeEvents` de la siguiente forma:
-
-   ```js
-   setupNodeEvents(on, config) {
-     config.defaultCommandTimeout = 20000
-     config.responseTimeout = 20000
-
-     // IMPORTANT return the updated config object
-     return config
-   }
-   ```
-
-3. Para finalizar sube tus cambios al repositorio y crea un PR.
+8.2. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## 9 Page Object Model (POM)
 
-Page Object Model es un patron para mejorar la mantenibilidad de las pruebas ya que podemos establecer una capa intermedia entre las pruebas y UI de la aplicación, ya que los cambios que requieran las pruebas debido a cambios en la aplicación se pueden realizar rapidamente en el POM. Te recomendamos investigar el patrón y otros patrones utiles que puedan ser usados para el código de pruebas.
+Page Object Model es un patrón para mejorar la mantenibilidad de las pruebas ya que podemos establecer una capa intermedia entre las pruebas y UI de la aplicación, ya que los cambios que requieran las pruebas debido a cambios en la aplicación se pueden realizar rápidamente en el POM. Te recomendamos investigar el patrón y otros patrones útiles que puedan ser usados para el código de pruebas.
 
 A continuación realizar la transformación a POM, por medio de los siguientes pasos:
 
-1. Crear el archivo `cypress/page/menu-content.page.ts` y agregar el siguiente código:
+9.1. Crear el archivo `cypress/page/login.page.ts` y agregar el siguiente código:
 
-   ```javascript
-   class MenuContentPage {
-       private tShirtMenu: string;
-       private menuContentPageURL: string
+   ```js
+   class LoginPage {
+     private loginURL: string;
+     private userNameField: string;
+     private passwordField: string;
+     private loginButton: string;
 
-       constructor() {
-           this.tShirtMenu = "#block_top_menu > ul > li:nth-child(3) > a";
-           this.menuContentPageURL = "http://automationpractice.com/"
-       }
+     constructor() {
+       this.loginURL = "http://saucedemo.com/";
+       this.userNameField = ".login-box > form > div > input#user-name";
+       this.passwordField = ".login-box > form > div > input#password";
+       this.loginButton = "input[type='submit']";
+     }
 
-       public visitMenuContentPage(): void {
-           cy.visit(this.menuContentPageURL)
-       }
+     public visitLoginPage(): void {
+       cy.visit(this.loginURL);
+     }
 
-       public goToTShirtMenu(): void {
-           cy.get(this.tShirtMenu).click()
-       }
+     public signIn(userName: string, password: string): void {
+       cy.get(this.userNameField).type(userName);
+       cy.get(this.passwordField).type(password);
+       cy.get(this.loginButton).click();
+     }
    }
 
-   export { MenuContentPage }
+   export { LoginPage };
    ```
 
-2. Posteriormente crear el archivo `cypress/page/index.ts` para usar como archivo de salida de todos los page object:
+9.2. Posteriormente crear el archivo `cypress/page/index.ts` para usar como archivo de salida de todos los page object:
 
-   ```javascript
-   export { MenuContentPage } from "./menu-content.page";
+   ```js
+   export { LoginPage } from "./login.page";
    ```
 
-3. Luego modificar el archivo `buy-tshirt.cy.ts` para utilizar el POM que acabamos de crear en la prueba:
+9.3. Luego modificar el archivo `buy-shirt.cy.ts` para utilizar el POM que acabamos de crear en la prueba:
 
-   ```javascript
-   import { MenuContentPage } from "../page/index";
+  ```js
+   import { LoginPage } from "../pages/index";
 
-   const menuContentPage = new MenuContentPage();
+   const loginPage = new LoginPage();
 
-   describe("Buy a t-shirt", () => {
-     it("then should be bought a t-shirt", () => {
-       menuContentPage.visitMenuContentPage();
-       menuContentPage.goToTShirtMenu();
-       cy.get("[style*=' display: block;'] .button-container > a").click();
-       cy.get(".cart_navigation span").click();
+   describe("Buy a black t-shirt", () => {
+     it("then the t-shirt should be bought", () => {
+       loginPage.visitLoginPage();
+       loginPage.signIn("standard_user", "secret_sauce");
 
        // El resto del flujo de la prueba....
      });
    });
-   ```
+  ```
 
-4. Posteriormente, crear el resto de page object y reemplazarlos en la prueba. Los nombres de los page object son: **products-list.page.ts**, **shoping-cart.page.ts**, **login.page.ts**, **address-step.page.ts**, **shipping-step.page.ts** y **payment-step.page.ts**
+9.4. Posteriormente, crear el resto de page object y reemplazarlos en la prueba. Los nombres de los page object son: **products-list.page.ts**, **item.page.ts**, **shopping-cart.page.ts**, **information.page.ts**, **overview.page.ts** y **checkout-complete.page.ts**
 
-   > **_tip:_** Agrega los page object al archivo "page/index.ts" para facilitar el import de cada page object en las pruebas.
+> <b><u>Tip:</u></b> Agrega los page object al archivo "page/index.ts" para facilitar el import de cada page object en las pruebas.
 
-5. Ejecute las pruebas y verifica que pasen. Si alguna falla modificala usando los CSS locators y el tiempo de espera configurado hasta que pasen.
+9.5. Ejecute las pruebas y verifica que pasen. Si alguna falla modifícala usando los CSS locators y el tiempo de espera configurado hasta que pasen.
 
-6. Cree un PR y solicitie revisión del punto anterior.
+9.6. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## 10. Mejorando los selectores
 
-En esta sección presentaras una propuesta para los selectores que se estan usando para la pruebas:
+En esta sección deberá personalizar los selectores que se estan usando para la prueba:
 
-1. Realice su propia propuesta de los selectores de cada page object.
-2. Verificar que las pruebas pasen
-3. Crear un PR y solicitar revisión. El revisor comentará los selectores con los que no esta de acuerdo, en ese caso, justifique su propesta de selector. (No use **XPATH**)
+> Puedes apoyarte en estos recursos para entender un poco más sobre selectores. </br>
+1- [Cypress Locator: How to locate web elements in Cypress](https://www.youtube.com/watch?v=h8zbcupvx6Y) </br>
+2- [Locators in Cypress](https://www.youtube.com/watch?v=w56cKguv3qo)</br>
+3- [Best practices Selecting Elements](https://docs.cypress.io/guides/references/best-practices#Selecting-Elements)
+
+10.1. Ejemplo:
+
+- Antes
+
+  ```js
+       this.element1 = "'input[id="firstName"]'";
+       this.element2 = ".sf-menu > li:nth-child(3)";
+       this.element3 = "input[type='submit']";
+   ```
+
+- Después
+
+  ```js
+       this.element1 = ".firstName";
+       this.element2 = "#sf-menu li";
+       this.element3 = "#submit";
+   ```
+
+> <b><u>Nota:</u></b> El revisor comentará los selectores con los que puede no estar de acuerdo, en ese caso, justifique su propuesta de selector. (No use **XPATH**).
+
+10.2. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## 11. AAA pattern
 
