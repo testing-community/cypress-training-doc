@@ -527,9 +527,9 @@ A continuación realizar la transformación a POM, por medio de los siguientes p
        cy.visit(this.loginURL);
      }
 
-     public signIn(): void {
-       cy.get(this.userNameField).type("standard_user");
-       cy.get(this.passwordField).type("secret_sauce");
+     public signIn(In_User: string, In_Password: string): void {
+       cy.get(this.userNameField).type(In_User);
+       cy.get(this.passwordField).type(In_Password);
        cy.get(this.loginButton).click();
      }
    }
@@ -553,7 +553,7 @@ A continuación realizar la transformación a POM, por medio de los siguientes p
    describe("Buy a black t-shirt", () => {
      it("then the t-shirt should be bought", () => {
        loginPage.visitLoginPage();
-       loginPage.signIn();
+       loginPage.signIn("standard_user", "secret_sauce");
 
        // El resto del flujo de la prueba....
      });
