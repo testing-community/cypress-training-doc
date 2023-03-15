@@ -613,8 +613,7 @@ De esta manera debe reordenar la estructura de su test teniendo como referencia 
 
 11.1. Primero verifique que cuenta con las clases para cada page usando Page Object (recuerde que al crear un `nombre/página.page.ts` que contenga los selectores, debe ser agregado al `index.ts`).
 
-> <b><u>nota:</u></b> Estos selectores no están optimizados, esta tarea debe realizarlo en el apartado anterior.
-
+> <b><u>nota:</u></b> Estos selectores no están optimizados, esta tarea debe realizarlo en el apartado anterior. <br>
 > <b><u>Dato curioso:</u></b> En el siguiente PageObject `ProductsContentPage` se implementan los Assert como parte de la clase, pero que hay muchos autores que no recomiendan esta práctica porque consideran que los assertions solo deben ir en las clases de prueba, y no en los page objects. Dado que se rompe el principio de responsabilidad unica. Para más información visita este [articulo:](https://medium.com/10-minutes-qa-story/assertions-in-page-objects-3a6acf6c0aac). La alternativa para resolver este dilema puede ser la implementación de getters sobre aquellos elementos que se les realizaran validaciones.
 
    ```js
