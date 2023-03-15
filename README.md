@@ -601,101 +601,105 @@ En esta sección deberá personalizar los selectores que se estan usando para la
 
 ## 11. AAA pattern
 
-Un patrón común para escribir pruebas es el patrón AAA que nos ayuda a definir una estructura ordenada de cada prueba, por medio de 3 pasos:
+Como parte de las buenas prácticas para diseñar pruebas encontramos el patrón AAA que nos ayuda a definir una estructura ordenada para cada prueba, por medio de 3 pasos:
 
-- **Arrange**: Preparar las condiciones necesarias para ejecutar la prueba, ej: Datos de la prueba, carga de pagina donde se ejecuta la prueba.
-- **Action**: Es la acción del usuario que realmente vamos a probar, Ej: llenar formularios, navegar a otra pagina, hacer clicks.
+- **Arrange**: Preparar las condiciones necesarias para ejecutar la prueba, ej: Datos de la prueba, carga de página donde se ejecuta la prueba.
+- **Action**: Es la acción del usuario que realmente vamos a probar, Ej: llenar formularios, navegar a otra página, hacer clicks.
 - **Assert**: Verificamos los comportamientos esperados. Ej: Se muestre cierta información, guardado de datos, actualización de datos, mensajes de error, etc...
 
-Vamos a agregar una nueva prueba y la estructuramos usando el patrón AAA:
+> Visita tambien para conocer un poco sobre: [AAA - CodeLapps](http://codelapps.com/code/anatomia-de-una-prueba-unitaria/)
 
-`Escenario:` Verificar que al navegar a la pagina de vestidos se muestren los vestidos disponibles y sus nombres.
+De esta manera debe reordenar la estructura de su test teniendo como referencia el patrón AAA:
 
-1. Primero agregamos el archivo del Page Object para la pagina de vestidos `dresses-list.page.ts`, recuerda agregarlo al `index.ts` de la carpeta `/page`:
+11.1. Primero verifique que cuenta con las clases para cada page usando Page Object (recuerde que al crear un `nombre/página.page.ts` que contenga los selectores, debe ser agregado al `index.ts`).
 
-   ```javascript
-   class DressesListPage {
+> <b><u>nota:</u></b> Estos selectores no están optimizados, esta tarea debe realizarlo en el apartado anterior. <br>
+> <b><u>Dato curioso:</u></b> En el siguiente PageObject `ProductsContentPage` se implementan los Assert como parte de la clase, pero que hay muchos autores que no recomiendan esta práctica porque consideran que los assertions solo deben ir en las clases de prueba, y no en los page objects. Dado que se rompe el principio de responsabilidad unica. Para más información visita este [articulo:](https://medium.com/10-minutes-qa-story/assertions-in-page-objects-3a6acf6c0aac). La alternativa para resolver este dilema puede ser la implementación de getters sobre aquellos elementos que se les realizaran validaciones.
 
-     private dressItem: string;
-     private dressName: string;
+   ```js
+   class ProductsContentPage {
+    private shoppingBtn: string
+    private containerItems: string;
+    private AddItemBackPack: string;
+    private titleItem: string;
+    private priceItem: string;
 
-     constructor(){
-       this.dressItem = ".product-container"
-       this.dressName = `${this.dressItem} .product-name`
-     }
+    constructor() {
+        this.shoppingBtn = ".shopping_cart_link";
+        this.containerItems = ":nth-child(2) > :nth-child(1) > #inventory_container";
+        this.AddItemBackPack = "[data-test=\"add-to-cart-sauce-labs-backpack\"]";
+        this.titleItem = "#item_4_title_link > .inventory_item_name";
+        this.priceItem = ":nth-child(1) > .inventory_item_description > .pricebar > .inventory_item_price";
+    }
 
-     getDressProducts(){
-       return cy.get(this.dressItem)
-     }
+    public goToShoppingCart():void{
+        cy.get(this.shoppingBtn).click();
+    }
 
-     validateItemsNumber(itemsNumber: number){
-       cy.get(this.dressItem).should("have.length", itemsNumber)
-     }
+    public addItem():void{
+        cy.get(this.AddItemBackPack).click();
+    }
 
-     validateItemsNames(names: string[]){
-       cy.get(this.dressName).each((item, index) => {
-         cy.wrap(item).should("contain.text", names[index])
-       })
-     }
+    public verifyTitle(messages:string): void {
+        cy.get(this.titleItem).should("have.text", messages);
+    }
 
+    public verifyPrice(messages:string): void {
+        cy.get(this.priceItem).should("have.text", messages);
+    }
+
+    public displayContainer(): void {
+        cy.get(this.containerItems).should('be.visible');
+    }
    }
-
-   export {DressesListPage}
+   export { ProductsContentPage }
    ```
 
-2. Creamos el archivo `cypress/e2e/dresses-list.cy.ts` para realizar la prueba de la lista de vestidos.
+11.2. A continuación deberá estructurar su archivo de ejecución principal, puedes basarte en este ejemplo.
+Ejemplo de diseño AAA:
 
-   ```javascript
-   import { MenuContentPage, DressesListPage } from "../page/index";
-
-   describe("the user navigates to the dresses page should", () => {
-     let menuContentPage: MenuContentPage;
-     let dressesListPage: DressesListPage;
-
-     before(() => {
-       menuContentPage = new MenuContentPage();
-       dressesListPage = new DressesListPage();
-     });
-
-     it("show the available dresses", () => {
-       // ... realiza la prueba
-     });
-   });
+   ```js
+    it("Login in sauce Page with Valid credentials", () =>{
+        //Arrange
+        loginPage.visitLoginPage();
+        loginPage.signIn("standard_user", "secret_sauce");
+        //Act
+        productPage.displayContainer();
+        productPage.addItem();
+        //Assert
+        productPage.verifyTitle("Sauce Labs Backpack");
+        productPage.verifyPrice("$29.99");
+    });
    ```
 
-3. Crea la prueba teniendo en cuenta el patrón AAA:
+11.3. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
-   - **Arrange:** Crea un arreglo con los nombre esperados de cada vestido y visita la página del menu principal.
-   - **Act:** Navega al menu de vestidos donde se carga la lista de vestidos diponibles.
-   - **Assert:** Verifica que se visualicen 5 vestidos y que tengan los nombres esperados (el orden es importante).
-
-4. Actualiza la prueba de comprar tshirt en el archivo `buy-tshirt.cy.ts` para que siga el patrón AAA.
-
-5. Verifica que las pruebas corran bien, crea un PR y solicita la revisión.
-
-> **tip:** Recuerda aplicar los Page Object al construir la prueba. Probablemente requieras agregar un metodo al `MenuContentPage`. <br/> **Nota:** Investiga como funciona los métodos **validate** en el archivo `dresses-list.page.ts`.
+> **tip:** Recuerda aplicar los Page Object al construir la prueba. Probablemente requieras agregar métodos adicionales.
 
 ## 12. Listas de elementos, filtros y elementos dentro de elementos
 
-En algunos escenarios debemos trabajar con lista de elementos, realizar busquedas sobre locator anidados o realizar acciones sobre elementos hijos del selector que tenemos disponible.
+En algunos escenarios debemos trabajar con lista de elementos, realizar búsquedas sobre locator anidados o realizar acciones sobre elementos hijos del selector que tenemos disponible.
 
-1. Agregar una variable privada dentro del page object `products-list.page.ts` con un selector que obtendra todos los elementos HTML de los productos.
+12.1. Agregar una(s) variable(s) privada(s) dentro del page object `products-list.page.ts` (obtenga los selectores de los elementos HTML en la página de productos).
 
-2. Cree un método privado llamado `findProductByName` el cual debe retornar el contenedor (elemento HTML) del producto cuyo nombre se pasa por parametro. Puedes basarte en el comando **filter** de cypres, revisa la API de Cypress: [API de cypress](https://docs.cypress.io/api/api/table-of-contents.html)
+12.2. Cree un método privado llamado `findProductByName` el cual deberá retornar el selector del elemento con el que desea interactuar (use como base el/los selector(es) del punto 12.1) donde el nombre del producto se pase como parámetro. Puedes basarte en el comando **filter** de cypress, revisá la documentación de Cypress: [API de cypress](https://docs.cypress.io/api/api/table-of-contents.html)
 
-3. Modifica el método `addTShirtToCart()` para que reciba por parametro el nombre del producto. Usa el método creado previamente para darle click al boton de "Add to Cart" del producto. Puedes revisar el comando **find** the cypress.
+12.3. Modifica el método usado para seleccionar el item "Sauce Labs Bolt T-Shirt" (punto 3 del flujo propuesto en el módulo 8) para que reciba por parámetro el nombre de cualquier producto. También puede usar el método para darle click al producto y navegar a su página. Puedes revisar el comando **find** the cypress.
 
-4. Ejecuta las pruebas y verifica que pasen :heavy_check_mark:
+> **tip:** Dependiendo de como se haya implementado el punto 4 del flujo propuesto en el módulo 8, es posible que el selector se deba actualizar para añadir cualquiera de los elementos al carrito.
 
-5. Sube la rama, crea un pull request y solicita la revisión del cambio
+12.4. Ejecuta las pruebas y verifica que pasen :heavy_check_mark:
+
+12.5. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## 13. Mejorando los reportes - Mochawesome
 
-Algunas veces es bueno mejorar el reporte visual de la ejecución de nuestras pruebas, para eso agregaremos `mochawesome` y lo integraremos con cypress. Siga los siguientes pasos:
+Tan importante es el diseño como lo es el reporte visual de la ejecución de nuestras pruebas, para esto deberá configurar `mochawesome` en su proyecto. Siga los siguientes pasos:
 
-1. Instalaremos las siguientes dependencias:
+13.1. Instalación de las dependencias requeridas:
 
    ```bash
+   # Para instalar el mochawesome
    npm install mocha mochawesome cypress-mochawesome-reporter --save-dev
 
    # Para mantenr el reporte actual (en la terminal) y agregar mochawesome
@@ -706,9 +710,9 @@ Algunas veces es bueno mejorar el reporte visual de la ejecución de nuestras pr
    npm install mochawesome-report-generator --save-dev
    ```
 
-2. Agregamos la siguiente configuración a la seccion `e2e` del archivo `cypress.config.ts`:
+13.2. Adicione la siguiente configuración en el objeto `e2e` de su archivo `cypress.config.ts`:
 
-   ```javascript
+   ```json
    reporter: "cypress-multi-reporters",
    reporterOptions: {
      reporterEnabled: "mochawesome",
@@ -722,23 +726,30 @@ Algunas veces es bueno mejorar el reporte visual de la ejecución de nuestras pr
    },
    ```
 
-3. Agrega script en el `package.json` para limpiar la carpeta `cypress/reports`
+13.3. Adicione los siguientes comandos dentro del objeto `script` en su archivo `package.json` (estos se utilizaran para limpiar la carpeta `cypress/reports` y generar la información nueva):
 
-   **tip:** Ten en cuenta que el servidor de CI corre en linux.
-
-4. Agrega estos sripts para procesar el reporte generado al ejecutar las pruebas:
-
-   ```json
-   "combine:reports": "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/report.json",
-   "generate:reports": "marge cypress/reports/report.json -f report -o cypress/reports",
+  ```json
+    "combine:reports": "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/report.json",
+    "generate:reports": "marge cypress/reports/report.json -f report -o cypress/reports",
+    "cypress:reports": "npm run cypress:run && npm run combine:reports && npm run generate:reports"
    ```
 
-5. Invetiga los hooks **pre** y **post** de npm para ejecutar scripts antes y despues de las pruebas:
+<b>Resultado de ejecución del comando: npm run cypress:reports</b>
 
-   - **pre:** Limpiar el la carpeta de reportes
-   - **post:** ejecutar los scripts para procesar el reporte generado por la ejecución de pruebas.
+![run_reports](media/generate-report1.png)
 
-6. Sube el cambio con una foto del reporte generado por `mochawesome`, crea un PR y solicita la revisión.
+![result_reports](media/generate-report2.png)
+
+![html_reports](media/html-report.png)
+
+13.4. Investiga los hooks **pre** y **post** de npm para ejecutar scripts antes y después de las pruebas:
+
+- **pre:** Limpiar el la carpeta de reportes
+- **post:** ejecutar los scripts para procesar el reporte generado por la ejecución de pruebas.
+
+**Tip:** Ten en cuenta que el servidor de CI (GitHub Actions) se ejecuta en ambiente linux.
+
+13.5. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## 14. Filling form
 
