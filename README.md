@@ -615,18 +615,20 @@ De esta manera debe reordenar la estructura de su test teniendo como referencia 
 
 > <b><u>nota:</u></b> Estos selectores no están optimizados, esta tarea debe realizarlo en el apartado anterior.
 
+> <b><u>Dato curioso:</u></b> En el siguiente PageObject `ProductsContentPage` se implementan los Assert como parte de la clase, pero que hay muchos autores que no recomiendan esta práctica porque consideran que los assertions solo deben ir en las clases de prueba, y no en los page objects. Dado que se rompe el principio de responsabilidad unica. Para más información visita este [articulo:](https://medium.com/10-minutes-qa-story/assertions-in-page-objects-3a6acf6c0aac). La alternativa para resolver este dilema puede ser la implementación de getters sobre aquellos elementos que se les realizaran validaciones.
+
    ```js
    class ProductsContentPage {
     private shoppingBtn: string
     private containerItems: string;
-    private itemBackPack_AddBtn: string;
+    private AddItemBackPack: string;
     private titleItem: string;
     private priceItem: string;
 
     constructor() {
         this.shoppingBtn = ".shopping_cart_link";
         this.containerItems = ":nth-child(2) > :nth-child(1) > #inventory_container";
-        this.itemBackPack_AddBtn = "[data-test=\"add-to-cart-sauce-labs-backpack\"]";
+        this.AddItemBackPack = "[data-test=\"add-to-cart-sauce-labs-backpack\"]";
         this.titleItem = "#item_4_title_link > .inventory_item_name";
         this.priceItem = ":nth-child(1) > .inventory_item_description > .pricebar > .inventory_item_price";
     }
@@ -636,7 +638,7 @@ De esta manera debe reordenar la estructura de su test teniendo como referencia 
     }
 
     public addItem():void{
-        cy.get(this.itemBackPack_AddBtn).click();
+        cy.get(this.AddItemBackPack).click();
     }
 
     public verifyTitle(messages:string): void {
@@ -662,10 +664,10 @@ Ejemplo de diseño AAA:
         //Arrange
         loginPage.visitLoginPage();
         loginPage.signIn("standard_user", "secret_sauce");
-        //Action
+        //Act
         productPage.displayContainer();
         productPage.addItem();
-        //Assertion
+        //Assert
         productPage.verifyTitle("Sauce Labs Backpack");
         productPage.verifyPrice("$29.99");
     });
