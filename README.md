@@ -527,9 +527,9 @@ A continuación realizar la transformación a POM, por medio de los siguientes p
        cy.visit(this.loginURL);
      }
 
-     public signIn(In_User: string, In_Password: string): void {
-       cy.get(this.userNameField).type(In_User);
-       cy.get(this.passwordField).type(In_Password);
+     public signIn(userName: string, password: string): void {
+       cy.get(this.userNameField).type(userName);
+       cy.get(this.passwordField).type(password);
        cy.get(this.loginButton).click();
      }
    }
