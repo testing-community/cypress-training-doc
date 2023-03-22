@@ -753,12 +753,13 @@ Tan importante es el diseño como lo es el reporte visual de la ejecución de nu
 
 ## 14. Filling form
 
-Usualmente en las aplicaciones nos encontramos formularios que los usuarios deben llenar para guardar información. En esta sección interactuaremos con algunos de los componentes más comunes que nos podemos encontrar. La prueba consiste en:
+Usualmente en las aplicaciones nos encontramos formularios que los usuarios deben llenar para guardar información. En esta sección interactuaremos con algunos de los componentes más comunes que nos podemos encontrar.
 
-**tip:** Recuerda crear un page object e implementar la prueba con el patrón AAA
+**Nota:** Crear un archivo **.cy.ts** (nuevo para su ejecución), utilizar page object e implementar la prueba con el patrón AAA.
 
-1. Visitar la página: [Formulario de pruebas automatización](https://demoqa.com/automation-practice-form)
-2. Construir un método que llene el formulario y de click en el boton de **submit**:
+14.1. Visita la página: [Formulario de pruebas automatización](https://demoqa.com/automation-practice-form)
+
+14.2. Construya el método que reciba la siguiente información como parámetro, llene el formulario y de click en el botón de **submit**:
 
    ```javascript
    const personalInformation = {
@@ -771,77 +772,79 @@ Usualmente en las aplicaciones nos encontramos formularios que los usuarios debe
      hobbies: ["Music", "Reading"],
      currentAddress: "Av siempreViva # 123",
    };
-   personalFormPage.fillForm(personalInformation);
+
+   page.method(personalInformation);
    ```
 
-   **tip:** Recuerda crear un page object e implementar la prueba con el patrón AAA
+  <b><u>Nota:</u></b> Recuerde reemplazar las propiedades `pages` y `method` según como usted nombre su página y método.
 
-   <details>
-   <summary><b><u>Nota:</u></b> Si tienes problemas con la ejecucion de las pruebas en esta pagina, te sale un mensaje de error de tipo "uncaught exception", click aqui para ver una solucion.</summary>
-
-   Agrega las siguientes lineas al final del archivo: `cypress/support/commands.ts`
+Si al ejecutar la página te aparece un mensaje de error de tipo "uncaught exception", agrega las siguientes líneas al final del archivo: `cypress/support/commands.ts`.
 
    ```javascript
-   // Ignoring uncaught exceptions since errors from external apps should not stop de workshop
    Cypress.on("uncaught:exception", (err, runnable) => {
-     // returning false here prevents Cypress from
-     // failing the test
      return false;
    });
    ```
 
-   </details>
+14.3. Verifique que el pop-up aparece una vez se termina de diligenciar el formulario.
 
-3. Verifique el titulo del pop-up que aparece una vez se termina de diligenciar el formulario.
+<b><u>Nota:</u></b> La verificación anterior es sencilla de realizar, a continuación, proponemos dos verificaciones adicionales:
 
-   **Nota:** La verificacion anterior es sencilla de realizar, a continuacion, opcionalmente, proponemos dos verificaciones adicionales:
+- **mini-challenge:** Agregue la interacción con el campo de State y City.
+- **Challenge:** En el modal, verifique que se muestra correctamente la información ingresada al enviar el formulario.
 
-   - **mini-challenge:** Agregue la interacción con el campo de State y City.
-   - **Challenge:** En el modal, verifique que se muestra correctamente, la informacion que ingresó al enviar el formulario.
-
-4. Verifique que las pruebas pasen, cree un PR y solicite la revisión.
+14.4. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## 15. Subiendo un archivo
 
-Usualmente nos podemos encontrar con la necesidad de subir archivos por medio de nuestra aplicación web. Realizaremos los siguiente:
+Usualmente nos podemos encontrar con la necesidad de subir archivos por medio de nuestra aplicación web. Para interactuar con este tipo de tareas realizar lo siguiente:
 
-1. Instalar el plugin de cypress para subir archivos: [cypress-file-upload](https://www.npmjs.com/package/cypress-file-upload). Sigue las instrucciones de configuración.
+15.1. Sigue las instrucciones de configuración para instalar el plugin de cypress: [cypress-file-upload](https://www.npmjs.com/package/cypress-file-upload).
 
-2. Crea el archivo `upload.page.ts` que contenga tres metodos:
+15.2. Crea el archivo `upload.page.ts` que contenga tres métodos:
 
-   - Visitar la página de pruebas de subida de archivos: [upload-demo-site](https://the-internet.herokuapp.com/upload)
-   - Subir un archivo. Recibe como parametro el nombre del archivo almacenado en la carpeta: `cypress/fixtures`
-   - Obtener el elemento del titulo que contiene el nombre despues de subir
+- Visitar la página de pruebas de subida de archivos: [upload-demo-site](https://the-internet.herokuapp.com/upload)
+- Subir un archivo (recibe como parámetro el nombre del archivo almacenado en la carpeta: `cypress/fixtures`)
+- Obtener el elemento del título que contiene el nombre después de subir.
 
-3. Crea el archivo de pruebas `upload-download.cy.ts` y agrega una prueba para subir un archivo usando el page object creado anteriormente. Recuerda estructurar tu prueba con el pátron AAA.
+15.3. Crea el archivo de pruebas `upload-download.cy.ts` y agrega los pasos necesarios para utilizar los métodos antes creados (recuerda implementar page object y utilizar el patrón AAA).
 
-   **tip:** El patrón AAA es solo para ayudarnos a tener mas orden al diseñar y contruir nuestras pruebas.
-
-4. Verifica que las pruebas pasen, crea un PR y solicita revisión.
+15.4. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## 16. Descargando un archivo
 
-Para esta sección descargaremos un archivo y verificaremos el contenido, realizaremos la siguiente prueba:
+Para esta sección descargaremos un archivo y verificaremos el contenido, para interactuar con este tipo de tareas realizar lo siguiente:
 
-1. Construye la siguiente prueba en el archivo `upload-download.cy.ts`:
+**Nota:** Crear un archivo **.cy.ts** (nuevo para su ejecución), utilizar page object e implementar la prueba con el patrón AAA.
 
-   - Visita la página: [download-demo-site](https://demoqa.com/upload-download)
-   - Descarga la imagen a traves del boton "Download".
-   - Verifica que el archivo exista en la carpeta de descargas de Cypress.
+16.1. Construye la siguiente prueba en el archivo `upload-download.cy.ts`:
 
-2. Crea el archivo `download.page.ts` con los método necesarios para construir la prueba automatica.
+- Visita la página: [download-demo-site](https://demoqa.com/upload-download)
+- Descarga la imagen a traves del botón "Download".
+- Verifica que el archivo exista en la carpeta de descargas (de Cypress).
 
-3. Verifica que todas las pruebas pasen, además incluye los archivos que no se deben subir al `.gitignore`.
+16.2. Crea el archivo `download.page.ts` con los métodos necesarios para construir la prueba automatizada.
 
-4. Crea un PR y solicita revisión.
+16.3. Verifica que todas las pruebas pasen, además incluye en el archivo `.gitignore` los elementos que no deban subir al repositorio.
+
+16.4. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## 17. Interactuando con IFrames
 
-Los iframes son elementos HTML que nos podemos encontrar comunmente en aplicaciones web antiguas, pero es bueno saber como interactuar con ellos. En esta sección interactuaremos, navegaremos y verificaremos data dentro de un iframe.
+Los iframes son elementos HTML que nos podemos encontrar comúnmente en aplicaciones web antiguas. En esta sección interactuaremos, navegaremos y verificaremos data dentro de un iframe. Para interactuar con este tipo de tareas realizar lo siguiente:
 
-1. Primero instalaremos el siguiente plugin de cypress: [Cypress Iframe](https://www.npmjs.com/package/cypress-iframe). Sigue las instrucciones del link.
+17.1. Sigue las instrucciones de configuración para instalar el plugin de cypress: [Cypress Iframe](https://www.npmjs.com/package/cypress-iframe).
 
-2. Crea un page object `iframe.page.ts` que contenga los siguiente métodos:
+**Nota:** Crear un archivo **.cy.ts** (nuevo para su ejecución), utilizar page object e implementar la prueba con el patrón AAA.
+
+17.2. Crea un archivo llamado `iframe.cy.ts`, luego construye la siguiente prueba:
+
+- El usuario navega a la página: [página iframe](https://www.w3schools.com/html/html_iframe.asp).
+- se muestra un Iframe, verifica título inicial `HTML Tutorial`.
+- **Optional:** Cuando un usuario dentro del iframe navega a la página de **CSS** al darle click en la barra de navegación, verifica dentro del IFrame que el nuevo título es `CSS Tutorial`.
+- **Challenge:** Algunas pruebas pueden ser inestables por diferentes factores como latencias. Implementa una estrategia de retries si encuentras alguna inestabilidad.
+
+17.3. Crea un page object `iframe.page.ts` que contenga los siguiente métodos:
 
    ```javascript
    visit(){
@@ -857,26 +860,9 @@ Los iframes son elementos HTML que nos podemos encontrar comunmente en aplicacio
    }
    ```
 
-3. Crea un archivo de pruebas llamado `iframe.cy.ts` y construye las siguientes pruebas:
+17.4. Verifica que todas las pruebas pasen.
 
-   - Cuando un usuario navega a la pagina: [pagina iframe](https://www.w3schools.com/html/html_iframe.asp) se muestra un Iframe que tiene como titulo `HTML Tutorial`
-
-   - **Optional:** Cuando un usuario navega a la pagina: [pagina iframe](https://www.w3schools.com/html/html_iframe.asp) se muestra un i-frame y cuando el usuario navega a la pagina de CSS al darle click en la barra de navegación, se carga la pagina de CSS dentro del IFrame con el titulo `CSS Tutorial`
-
-   **Challenge:** algunas pruebas pueden ser inestables por diferentes factores como latencias. Implementa una estrategia de retrys si encuentras alguna inestabilidad!
-
-4. Verifica que las pruebas pasen, crea un PR y solicita la revisión.
-
-   <details>
-   <summary><b><u>Nota:</u></b> Si tienes problemas con la ejecucion de las pruebas en esta pagina, te sale un mensaje de error de tipo "SecurityError: Blocked a frame with origin...", click aqui para ver una solucion.</summary>
-
-   Agrega las siguientes lineas en el método "setupNodeEvents" del archivo: `cypress.config.ts`
-
-   ```javascript
-   config.chromeWebSecurity = false;
-   ```
-
-   </details>
+17.5. Crear un pull request (PR), asignarle los revisores y esperar la aprobación o comentarios de mejora (incluya una captura de pantalla donde se evidencie que las pruebas están pasando). No olvide actualizar su rama `main` una vez el PR ha sido aprobado y se haya hecho el proceso de Squash and Merge.
 
 ## Conclusión
 
